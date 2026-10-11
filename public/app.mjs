@@ -175,6 +175,10 @@ $('download').addEventListener('click', () => {
   const a = document.createElement('a'); a.href = url; a.download = `DCF-${company.symbol}-${new Date().toISOString().slice(0, 10)}.json`; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 $('connection-note').textContent = window.DCF_CONFIG?.apiBase || !location.hostname.endsWith('github.io') ? '按「读取公司资料」查询在线财报，网页会显示资料日期。' : '目前为财报快照试用版；在线财报服务尚未连接，查询不会自动获取最新财报。';
-// Initial snapshot makes the educational example usable without an online server.
-const initialVersion = loadVersion;
-snapshot('NVDA').then(data => { if (loadVersion === initialVersion) { renderCompany(data); status('已载入 NVIDIA 财报快照。按「读取公司资料」可尝试更新；填写增长假设即可试算。'); } }).catch(() => { if (loadVersion === initialVersion) status('输入美股代码，再按「读取公司资料」。'); });
+// Query current filings on connected deployments; keep the dated example offline.
+if (window.DCF_CONFIG?.apiBase || location.hostname.endsWith('.vercel.app')) {
+  lookup('NVDA');
+} else {
+  const initialVersion = loadVersion;
+  snapshot('NVDA').then(data => { if (loadVersion === initialVersion) { renderCompany(data); status('已载入 NVIDIA 财报快照。按「读取公司资料」可尝试更新；填写增长假设即可试算。'); } }).catch(() => { if (loadVersion === initialVersion) status('输入美股代码，再按「读取公司资料」。'); });
+}
