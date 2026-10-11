@@ -1,0 +1,60 @@
+name: Refresh saved financial statements
+on:
+  schedule:
+    - cron: '30 22 * * 0'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: financial-data
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Refresh industry capital-cost reference
+        run: node scripts/update-wacc.mjs
+      - name: Refresh SEC snapshots
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: npm run refresh
+      - run: npm test
+      - name: Commit updated snapshots
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh public financial snapshots'
+            git push
+          fi
+      # Pushes made with GITHUB_TOKEN do not trigger Pages push workflows.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: false
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+  publish:
+    needs: refresh
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
