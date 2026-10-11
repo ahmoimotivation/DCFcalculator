@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { matchCompanies, resolveKnownCompany, researchCompanies } from '../public/companies.mjs';
 import { calculateDCF } from '../public/model.mjs';
+import { searchCompanies } from '../lib/sec.mjs';
 const presets = JSON.parse(await readFile(new URL('../public/data/course-presets.json', import.meta.url)));
 test('Chinese, English, punctuation and one-letter Visa code identify the intended company', () => {
   for (const [query, symbol] of [[' 台積電 ', 'TSM'], ['Johnson & Johnson', 'JNJ'], ['Service Now', 'NOW'], ['谷歌', 'GOOGL'], ['微软', 'MSFT'], ['visa', 'V']]) assert.equal(resolveKnownCompany(query), symbol);
@@ -29,4 +30,11 @@ test('the entire course roster has presets; eligible companies produce finite va
 test('TSM denominator represents all common shares in ADS units, not public float', () => {
   assert.equal(presets.TSM.shares * 5, 25932524520);
   assert.ok(presets.TSM.warnings.some(w => w.includes('USD／ADS')));
+});
+test('SEC access restrictions do not disable company-name lookup; fallback directory is dated', async () => {
+  const result = await searchCompanies('Coca Cola', { userAgent: 'DCF test test@example.com', fetcher: async () => ({ ok: false, status: 403 }) });
+  assert.equal(result.directoryMode, 'saved');
+  assert.equal(result.directoryAsOf, '2026-10-11');
+  assert.ok(result.matches.some(c => c.symbol === 'KO'));
+  assert.ok(result.matches.some(c => c.symbol === 'KOF'));
 });
