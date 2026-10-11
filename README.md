@@ -129,6 +129,8 @@ GitHub Pages 已连接 https://dcfcalculator-livid.vercel.app 的财报后台，
 
 新增 `public/companies.mjs`（课程名单与名称匹配）、`public/data/course-presets.json`（已核对财报资料），API `/api/company?q=Costco` 返回有限数量的公司名称及代码，选择后再查询财报。搜索不读取用户账户或交易资料。
 
+SEC 限制云端访问公司目录时，使用 `lib/sec-company-directory.json` 的 2026-10-11 官方目录副本，保留名称搜索及 CIK 识别。API 返回 `directoryMode` 与 `directoryAsOf`；目录副本不等于财报副本，之后仍独立读取财报。新增或改名公司的目录需重新保存，线上读取成功时采用在线目录。
+
 FCFF 保留 EBIT 路径；字段不齐时，可使用同年度 OCF＋税后利息费用−资本开支路径，方法和原始项目在页面公开。课程补充预设另核对无形资产资本支出；TSM 使用 EBIT 和现金流表营运资金变动。不同方法不能只比较表面 FCF 数值。所有默认折现率均为行业参考，未来五年增长保持空白。
 
 每周 SEC 快照更新不自动重建本机 Moomoo 核对的课程预设。课程预设需要教师或维护者在新财报后核对刷新；页面显示日期，不伪装成实时资料。后续要每日 OpenD 同步，需要另外接入定时同步与云端存储，目前未启用。
