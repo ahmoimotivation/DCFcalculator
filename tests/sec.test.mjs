@@ -45,3 +45,14 @@ test('quarterly facts are not used in place of annual cash flows and restatement
   assert.equal(fact.val, 130387000000);
   assert.equal(fact.start, '2025-01-27');
 });
+
+test('CFO fallback uses matched annual interest and tax, never a quarterly interest amount', () => {
+  const changed = structuredClone(facts);
+  delete changed.facts['us-gaap'].DepreciationDepletionAndAmortization;
+  changed.facts['us-gaap'].InterestExpenseNonoperating = { units: { USD: [{ start: '2025-01-27', end: '2026-01-25', val: 259000000, filed: '2026-02-25', form: '10-K' }] } };
+  const data = extractCompany(changed, submissions, 'NVDA');
+  assert.equal(data.fcffMethod, 'cfo-after-tax-interest');
+  assert.ok(Math.abs(data.fcff - (102718000000 + 259000000 * (1 - 21383000000 / 141450000000) - 6042000000)) < 1);
+  changed.facts['us-gaap'].InterestExpenseNonoperating.units.USD[0].start = '2025-10-27';
+  assert.equal(extractCompany(changed, submissions, 'NVDA').fcff, null);
+});
