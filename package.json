@@ -1,0 +1,1 @@
+{"name":"ah-moi-dcf","version":"1.0.0","private":true,"type":"module","engines":{"node":">=22"},"scripts":{"dev":"node server.mjs","test":"node --test tests/*.test.mjs","refresh":"node scripts/refresh.mjs"}}
