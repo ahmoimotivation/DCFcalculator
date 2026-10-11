@@ -3,7 +3,7 @@
   "name": "AMAZON COM INC",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-11T03:10:41.712Z",
+  "retrievedAt": "2026-10-11T03:59:52.901Z",
   "period": {
     "start": "2025-01-01",
     "end": "2025-12-31",
@@ -15,7 +15,7 @@
   "sicDescription": "Retail-Catalog & Mail-Order Houses",
   "fcff": 22375357945.14496,
   "cash": 122988000000,
-  "debt": 133320000000,
+  "debt": 132549000000,
   "shares": 10786313572,
   "discount": 0.0727,
   "terminal": 0.025,
@@ -156,14 +156,14 @@
     },
     {
       "end": "2026-06-30",
-      "val": 132995000000,
+      "val": 3330000000,
       "accn": "0001018724-26-000026",
       "fy": 2026,
       "fp": "Q2",
       "form": "10-Q",
       "filed": "2026-07-31",
       "frame": "CY2026Q2I",
-      "tag": "LongTermDebt",
+      "tag": "LongTermDebtCurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -177,6 +177,19 @@
       "filed": "2026-07-31",
       "frame": "CY2026Q2I",
       "tag": "ShortTermBorrowings",
+      "namespace": "us-gaap",
+      "unit": "USD"
+    },
+    {
+      "end": "2026-06-30",
+      "val": 128894000000,
+      "accn": "0001018724-26-000026",
+      "fy": 2026,
+      "fp": "Q2",
+      "form": "10-Q",
+      "filed": "2026-07-31",
+      "frame": "CY2026Q2I",
+      "tag": "LongTermDebtNoncurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -247,14 +260,14 @@
     },
     {
       "end": "2025-12-31",
-      "val": 68836000000,
+      "val": 2748000000,
       "accn": "0001018724-26-000026",
       "fy": 2026,
       "fp": "Q2",
       "form": "10-Q",
       "filed": "2026-07-31",
       "frame": "CY2025Q4I",
-      "tag": "LongTermDebt",
+      "tag": "LongTermDebtCurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -268,6 +281,19 @@
       "filed": "2026-07-31",
       "frame": "CY2025Q4I",
       "tag": "ShortTermBorrowings",
+      "namespace": "us-gaap",
+      "unit": "USD"
+    },
+    {
+      "end": "2025-12-31",
+      "val": 65648000000,
+      "accn": "0001018724-26-000026",
+      "fy": 2026,
+      "fp": "Q2",
+      "form": "10-Q",
+      "filed": "2026-07-31",
+      "frame": "CY2025Q4I",
+      "tag": "LongTermDebtNoncurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -325,14 +351,14 @@
     },
     {
       "end": "2024-12-31",
-      "val": 58000000000,
+      "val": 5017000000,
       "accn": "0001018724-26-000004",
       "fy": 2025,
       "fp": "FY",
       "form": "10-K",
       "filed": "2026-02-06",
       "frame": "CY2024Q4I",
-      "tag": "LongTermDebt",
+      "tag": "LongTermDebtCurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -346,6 +372,19 @@
       "filed": "2026-02-06",
       "frame": "CY2024Q4I",
       "tag": "ShortTermBorrowings",
+      "namespace": "us-gaap",
+      "unit": "USD"
+    },
+    {
+      "end": "2024-12-31",
+      "val": 52623000000,
+      "accn": "0001018724-26-000004",
+      "fy": 2025,
+      "fp": "FY",
+      "form": "10-K",
+      "filed": "2026-02-06",
+      "frame": "CY2024Q4I",
+      "tag": "LongTermDebtNoncurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     }
