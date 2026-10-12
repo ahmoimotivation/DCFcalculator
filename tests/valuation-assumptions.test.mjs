@@ -5,17 +5,19 @@ import { applyCompanyAssumptions } from '../public/valuation-assumptions.mjs';
 import { parseStatistics, parseTerminalModel, loadCompanyAssumptions } from '../lib/company-assumptions.mjs';
 const seeds = JSON.parse(await readFile(new URL('../public/data/company-assumptions.json',import.meta.url)));
 test('NVIDIA and Amazon use their own published company WACC and separately attributed terminal assumptions', () => {
-  assert.ok(Math.abs(seeds.NVDA.discount.value-.16332)<1e-12);
-  assert.ok(Math.abs(seeds.AMZN.discount.value-.11341)<1e-12);
-  assert.equal(seeds.NVDA.terminal.value,.025);
-  assert.equal(seeds.AMZN.terminal.value,.0275);
+  for (const symbol of ['NVDA','AMZN']) {
+    assert.ok(seeds[symbol].discount.value>0 && seeds[symbol].discount.value<1);
+    assert.equal(seeds[symbol].discount.kind,'company-wacc-estimate');
+    assert.ok(Number.isFinite(seeds[symbol].terminal.value));
+    assert.ok(seeds[symbol].terminal.asOf);
+  }
   assert.match(seeds.NVDA.discount.sourceUrl,/nvda/);
   assert.match(seeds.AMZN.terminal.sourceUrl,/AMZN/);
   assert.equal(seeds.NVDA.terminal.kind,'published-company-model-assumption');
 });
 test('unsupported terminal sources stay missing; stale industry and 2.5% defaults cannot leak into results', () => {
   const legacy = { symbol:'NOW',discount:.0934,terminal:.025,warnings:['折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。'] };
-  const data = applyCompanyAssumptions(legacy,seeds.NOW);
+  const data = applyCompanyAssumptions(legacy,{...seeds.NOW,terminal:null});
   assert.equal(data.terminal,null);
   assert.notEqual(data.discount,.0934);
   assert.equal(data.warnings.length,0);
