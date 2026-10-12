@@ -77,7 +77,6 @@ function fillInputs() {
   $('discount').value = Number.isFinite(company.discount) ? Number((company.discount * 100).toFixed(3)) : '';
   $('terminal').value = Number.isFinite(company.terminal) ? Number((company.terminal * 100).toFixed(3)) : '';
   $('adjustment').value = company.adjustment / 1e9;
-  $('terminal-rationale').value = '';
   edited = false; rateEdits = { discount: false, terminal: false }; updateAssumptions();
 }
 function updateAssumptions() {
@@ -91,7 +90,7 @@ function renderRateEvidence() {
     const record = evidence?.[key], box = $(key + '-basis');
     const h = document.createElement('h4'); h.textContent = title;
     const value = document.createElement('strong'); value.textContent = record ? pct(record.value) : '待核对';
-    const description = document.createElement('p'); description.textContent = record ? key === 'discount' ? '该公司独立估算；不是行业平均或公司公布的官方利率。' : '该公司已发布估值模型的假设；不是管理层对永远增长的预测。' : '未取得可核对的公司专属来源，不自动填入数值。';
+    const description = document.createElement('p'); description.textContent = record ? key === 'discount' ? record.provider === 'Trefis' ? '该公司已发布 FCFF 模型的 WACC 假设；不是市场共识或公司官方利率。' : '该公司独立估算；不是行业平均或公司公布的官方利率。' : '该公司已发布估值模型的假设；不是管理层对永远增长的预测。' : '未取得可核对的公司专属来源，不自动填入数值。';
     box.replaceChildren(h, value, description);
     if (record) {
       const date = document.createElement('small'); date.textContent = `${record.mode === 'online' ? '在线核对' : '已保存依据'} · 数据／模型更新 ${record.asOf || '来源未注明日期'}`;
@@ -100,12 +99,16 @@ function renderRateEvidence() {
   }
   const c = evidence?.context;
   $('rate-context').textContent = c ? `${company.symbol} 的辅助资料：5 年 Beta ${Number.isFinite(c.beta5Y) ? number(c.beta5Y,3) : '未取得'} · 当前 ROIC ${Number.isFinite(c.roic) ? pct(c.roic) : '未取得'} · 三年营收增长预测 ${Number.isFinite(c.revenueGrowthForecast3Y) ? pct(c.revenueGrowthForecast3Y) : '未取得'}。这些近年数据不直接当作永续增长率。` : '当前没有可核对的辅助资料。';
+  const alternative = evidence?.discountComparison;
+  if (alternative) {
+    const p = document.createElement('p'); p.className = 'muted'; p.append(`另一来源：${pct(alternative.value)} · `, safeLink(alternative.provider + ' ↗', alternative.sourceUrl), ` · ${alternative.asOf}。不同方法的参考，不代表预设有唯一正确答案。`); $('discount-basis').append(p);
+  }
   const methods = [evidence?.discount?.method, evidence?.terminal?.method, ...(evidence?.warnings || [])].filter(Boolean);
-  if (Number.isFinite(evidence?.terminal?.modelDiscount)) methods.push(`同公司来源模型采用折现率 ${pct(evidence.terminal.modelDiscount)}；本次采用 Stock Analysis 的公司 WACC，所以不会得到 Trefis 的同一个估值。`);
+  if (Number.isFinite(evidence?.terminal?.modelDiscount)) methods.push(`同公司 Trefis 来源模型采用折现率 ${pct(evidence.terminal.modelDiscount)}。本工具采用独立的五年增长假设与财务口径，不能复现该来源的完整估值。`);
   $('rate-methods').replaceChildren(...methods.map(text => { const li = document.createElement('li'); li.textContent = text; return li; }));
   const missingRates = !Number.isFinite(company?.discount) || !Number.isFinite(company?.terminal);
   $('rate-missing').hidden = !missingRates || company?.modelBlocked;
-  $('rate-missing').textContent = '这家公司有估值参数未取得独立依据。请在进阶假设中填写缺少的数值，并说明你的依据；缺失项不会当成 0 或用平均值代替。';
+  $('rate-missing').textContent = '这家公司有估值参数未取得独立依据。请在进阶假设中填写缺少的数值；缺失项不会当成 0 或用平均值代替。';
 }
 async function refreshRateEvidence(symbol, version, signal) {
   try {
@@ -256,8 +259,6 @@ function readInputs() {
   if (!growth) throw new Error('请填写未来五年的平均年增长率。');
   input.averageGrowth = Number(growth) / 100;
   input.growthRates = Array(5).fill(input.averageGrowth);
-  input.terminalRationale = $('terminal-rationale').value.trim();
-  if ((!company.valuationAssumptions?.terminal || rateEdits.terminal) && !input.terminalRationale) throw new Error('请为这家公司的永续增长假设填写依据；未取得公开模型或自行修改时不能省略。');
   return input;
 }
 function renderResults(input, result) {
