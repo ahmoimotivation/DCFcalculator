@@ -1,10 +1,13 @@
 import { calculateDCF, sensitivity } from './model.mjs';
 import { researchCompanies, normalizeCompany, resolveKnownCompany, matchCompanies } from './companies.mjs';
+import { applyCompanyAssumptions } from './valuation-assumptions.mjs';
 const $ = id => document.getElementById(id);
 let company = null, lastCalculation = null, loadVersion = 0, controller = null, edited = false;
 const normalize = normalizeCompany;
 let searchController = null, searchTimer = null, searchVersion = 0, currentMatches = [];
+let activeAssumptions = null, rateEdits = { discount: false, terminal: false };
 const presetPromise = fetch('./data/course-presets.json', { cache: 'no-cache' }).then(r => { if (!r.ok) throw new Error(); return r.json(); }).catch(() => ({}));
+const assumptionSeedPromise = fetch('./data/company-assumptions.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).catch(() => ({}));
 const apiURL = () => new URL(`${String(['127.0.0.1', 'localhost'].includes(location.hostname) ? '' : window.DCF_CONFIG?.apiBase || '').replace(/\/$/, '')}/api/company`, window.location.origin);
 function showMatches(matches) {
   currentMatches = matches;
@@ -71,17 +74,58 @@ function safeLink(label, href) {
 }
 function fillInputs() {
   for (const key of ['fcff', 'cash', 'debt', 'shares']) $(key).value = company[key] === null ? '' : company[key] / 1e9;
-  $('discount').value = (company.discount * 100).toFixed(2);
-  $('terminal').value = company.terminal * 100;
+  $('discount').value = Number.isFinite(company.discount) ? Number((company.discount * 100).toFixed(3)) : '';
+  $('terminal').value = Number.isFinite(company.terminal) ? Number((company.terminal * 100).toFixed(3)) : '';
   $('adjustment').value = company.adjustment / 1e9;
-  edited = false; updateAssumptions();
+  $('terminal-rationale').value = '';
+  edited = false; rateEdits = { discount: false, terminal: false }; updateAssumptions();
 }
 function updateAssumptions() {
   if (!company) return;
-  $('assumptions').textContent = `${edited ? '已修改资料／假设 · ' : ''}5 年预测 · 折现率 ${$('discount').value || '待填'}%（${edited ? '可调整假设' : '行业参考'}） · 永续增长 ${$('terminal').value || '待填'}% · ${company.mode === 'live' ? '在线读取' : company.mode === 'preset' ? '已核对课程预设' : '财报快照'}`;
+  $('assumptions').textContent = `${edited ? '已修改资料／假设 · ' : ''}5 年预测 · WACC ${$('discount').value || '待填'}%（${rateEdits.discount ? '自行调整' : '公司专属估算'}） · 永续增长 ${$('terminal').value === '' ? '待填' : $('terminal').value + '%'}（${rateEdits.terminal ? '自行调整' : '第三方模型假设'}） · ${company.mode === 'live' ? '在线读取' : company.mode === 'preset' ? '已核对课程预设' : '财报快照'}`;
+}
+function renderRateEvidence() {
+  const evidence = company?.valuationAssumptions;
+  $('valuation-basis').hidden = !company;
+  for (const [key, title] of [['discount','公司 WACC 估算'],['terminal','永续增长参考假设']]) {
+    const record = evidence?.[key], box = $(key + '-basis');
+    const h = document.createElement('h4'); h.textContent = title;
+    const value = document.createElement('strong'); value.textContent = record ? pct(record.value) : '待核对';
+    const description = document.createElement('p'); description.textContent = record ? key === 'discount' ? '该公司独立估算；不是行业平均或公司公布的官方利率。' : '该公司已发布估值模型的假设；不是管理层对永远增长的预测。' : '未取得可核对的公司专属来源，不自动填入数值。';
+    box.replaceChildren(h, value, description);
+    if (record) {
+      const date = document.createElement('small'); date.textContent = `${record.mode === 'online' ? '在线核对' : '已保存依据'} · 数据／模型更新 ${record.asOf || '来源未注明日期'}`;
+      box.append(safeLink(record.provider + ' ↗', record.sourceUrl),date);
+    }
+  }
+  const c = evidence?.context;
+  $('rate-context').textContent = c ? `${company.symbol} 的辅助资料：5 年 Beta ${Number.isFinite(c.beta5Y) ? number(c.beta5Y,3) : '未取得'} · 当前 ROIC ${Number.isFinite(c.roic) ? pct(c.roic) : '未取得'} · 三年营收增长预测 ${Number.isFinite(c.revenueGrowthForecast3Y) ? pct(c.revenueGrowthForecast3Y) : '未取得'}。这些近年数据不直接当作永续增长率。` : '当前没有可核对的辅助资料。';
+  const methods = [evidence?.discount?.method, evidence?.terminal?.method, ...(evidence?.warnings || [])].filter(Boolean);
+  if (Number.isFinite(evidence?.terminal?.modelDiscount)) methods.push(`同公司来源模型采用折现率 ${pct(evidence.terminal.modelDiscount)}；本次采用 Stock Analysis 的公司 WACC，所以不会得到 Trefis 的同一个估值。`);
+  $('rate-methods').replaceChildren(...methods.map(text => { const li = document.createElement('li'); li.textContent = text; return li; }));
+  const missingRates = !Number.isFinite(company?.discount) || !Number.isFinite(company?.terminal);
+  $('rate-missing').hidden = !missingRates || company?.modelBlocked;
+  $('rate-missing').textContent = '这家公司有估值参数未取得独立依据。请在进阶假设中填写缺少的数值，并说明你的依据；缺失项不会当成 0 或用平均值代替。';
+}
+async function refreshRateEvidence(symbol, version, signal) {
+  try {
+    const url = apiURL(); url.searchParams.set('symbol',symbol); url.searchParams.set('assumptions','1');
+    const response = await fetch(url,{ signal: AbortSignal.any([signal,AbortSignal.timeout(20000)]) });
+    if (!response.ok) return;
+    const rates = await response.json();
+    if (version !== loadVersion || rates.symbol !== symbol || rates.scope !== 'company') return;
+    activeAssumptions = rates;
+    if (company?.symbol !== symbol) return;
+    company = applyCompanyAssumptions(company,rates);
+    const before = [$('discount').value, $('terminal').value];
+    for (const key of ['discount','terminal']) if (!rateEdits[key]) $(key).value = Number.isFinite(company[key]) ? Number((company[key]*100).toFixed(3)) : '';
+    if (before[0] !== $('discount').value || before[1] !== $('terminal').value) dirty();
+    renderRateEvidence(); updateAssumptions();
+  } catch { /* Dated company evidence remains visible; no average is substituted. */ }
 }
 function dirty() { $('results').hidden = true; $('calc-error').hidden = true; lastCalculation = null; }
 function renderCompany(data) {
+  data = applyCompanyAssumptions(data, data.valuationAssumptions || activeAssumptions);
   company = data; edited = false; dirty();
   $('symbol').value = data.symbol;
   $('company').hidden = false;
@@ -109,8 +153,8 @@ function renderCompany(data) {
   $('missing').hidden = !data.missing.length && !data.modelBlocked;
   $('missing').textContent = data.modelBlocked ? data.modelNote : `以下资料无法自动确认，请在进阶假设中核对后填写：${data.missing.join('；')}。缺失数值不会当作零。`;
   const meta = document.createElement('p'); meta.className = 'muted';
-  meta.textContent = `行业：${data.industry} · 行业资本成本参考 ${pct(data.discount)}（${data.waccAsOf}） · 资料读取于 ${data.retrievedAt.slice(0, 10)}。${data.mode === 'live' ? '财报数字随公司披露更新，并非实时行情。' : '这是带日期的保存资料，并非即时行情。'}${data.sourceName ? ' 来源：' + data.sourceName + '。' : ''}`;
-  $('sources').replaceChildren(safeLink(data.mode === 'preset' ? '打开公司财报来源 ↗' : '打开 SEC 财报 ↗', data.reportUrl), safeLink('行业资本成本来源 ↗', data.waccSource), meta);
+  meta.textContent = `行业：${data.industry} · 资料读取于 ${data.retrievedAt.slice(0, 10)}。${data.mode === 'live' ? '财报数字随公司披露更新，并非实时行情。' : '这是带日期的保存资料，并非即时行情。'}${data.sourceName ? ' 来源：' + data.sourceName + '。' : ''}公司 WACC 与终值依据见上方。`;
+  $('sources').replaceChildren(safeLink(data.mode === 'preset' ? '打开公司财报来源 ↗' : '打开 SEC 财报 ↗', data.reportUrl),meta);
   $('warnings').replaceChildren(...data.warnings.map(text => { const li = document.createElement('li'); li.textContent = text; return li; }));
   const tbody = $('audit').querySelector('tbody');
   tbody.replaceChildren(...data.audit.map(row => {
@@ -119,8 +163,9 @@ function renderCompany(data) {
     return tr;
   }));
   fillInputs();
+  renderRateEvidence();
   $('calc-button').disabled = Boolean(data.modelBlocked);
-  if (data.missing.length) $('advanced').open = true;
+  if (data.missing.length || data.discount === null || data.terminal === null) $('advanced').open = true;
 }
 async function snapshot(symbol, signal) {
   const response = await fetch(`./data/${encodeURIComponent(symbol)}.json`, { signal, cache: 'no-cache' });
@@ -135,6 +180,7 @@ async function lookup(symbol) {
   controller?.abort(); controller = new AbortController();
   const activeController = controller;
   const { signal } = activeController;
+  activeAssumptions = null; rateEdits = { discount: false, terminal: false };
   company = null; $('company').hidden = true; $('calc-button').disabled = true; dirty();
   $('symbol').value = symbol;
   document.querySelectorAll('[data-symbol]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.symbol === symbol)));
@@ -143,8 +189,10 @@ async function lookup(symbol) {
   status(`正在读取 ${symbol} 的财报资料…`);
   let preset;
   try {
-    preset = (await presetPromise)[symbol];
+    const [presets, seeds] = await Promise.all([presetPromise, assumptionSeedPromise]);
+    preset = presets[symbol]; activeAssumptions = seeds[symbol] || null;
     if (version !== loadVersion) return;
+    void refreshRateEvidence(symbol, version, signal);
     if (preset) {
       renderCompany({ ...preset, mode: 'preset' });
       status(preset.modelBlocked ? preset.modelNote : `${symbol} 的课程财报预设已填好，正在检查在线资料…`);
@@ -190,6 +238,8 @@ async function lookup(symbol) {
 }
 function readInputs() {
   const input = {};
+  if ($('discount').value.trim() === '') throw new Error('请核对并填写这家公司的 WACC，当前没有独立来源。');
+  if ($('terminal').value.trim() === '') throw new Error('请填写永续增长假设，当前没有可核对的公司专属终值来源。');
   for (const key of ['fcff', 'cash', 'debt', 'shares', 'discount', 'terminal', 'adjustment']) {
     if ($(key).value.trim() === '') throw new Error('请完整填写增长率及财务数值；缺失财报项目需先在进阶假设中核对。');
     const n = Number($(key).value);
@@ -199,6 +249,8 @@ function readInputs() {
   if (!growth) throw new Error('请填写未来五年的平均年增长率。');
   input.averageGrowth = Number(growth) / 100;
   input.growthRates = Array(5).fill(input.averageGrowth);
+  input.terminalRationale = $('terminal-rationale').value.trim();
+  if ((!company.valuationAssumptions?.terminal || rateEdits.terminal) && !input.terminalRationale) throw new Error('请为这家公司的永续增长假设填写依据；未取得公开模型或自行修改时不能省略。');
   return input;
 }
 function renderResults(input, result) {
@@ -250,7 +302,7 @@ $('calculate').addEventListener('submit', e => {
   } catch (error) { $('calc-error').textContent = error.message; $('calc-error').hidden = false; if (company?.missing.length) $('advanced').open = true; }
 });
 $('growth').addEventListener('input', dirty);
-for (const key of ['fcff', 'cash', 'debt', 'shares', 'discount', 'terminal', 'adjustment']) $(key).addEventListener('input', () => { edited = true; dirty(); updateAssumptions(); });
+for (const key of ['fcff', 'cash', 'debt', 'shares', 'discount', 'terminal', 'adjustment']) $(key).addEventListener('input', () => { edited = true; if (key in rateEdits) rateEdits[key] = true; dirty(); updateAssumptions(); });
 $('reset').addEventListener('click', () => { if (company) { fillInputs(); dirty(); } });
 $('download').addEventListener('click', () => {
   if (!lastCalculation) return;
