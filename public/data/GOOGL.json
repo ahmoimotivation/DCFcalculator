@@ -3,7 +3,7 @@
   "name": "Alphabet Inc.",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-11T03:59:52.190Z",
+  "retrievedAt": "2026-10-12T01:34:09.464Z",
   "period": {
     "start": "2025-01-01",
     "end": "2025-12-31",
@@ -13,7 +13,8 @@
   "sharesEnd": "2026-06-30",
   "sic": "7370",
   "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
-  "fcff": null,
+  "fcff": 73878476042.96527,
+  "fcffMethod": "cfo-after-tax-interest",
   "cash": 242474000000,
   "debt": 100164000000,
   "shares": 12230000000,
@@ -24,21 +25,21 @@
   "waccAsOf": "2026-01",
   "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm",
-  "missing": [
-    "年度 FCFF：缺少可匹配的税率、折旧、资本开支或营运资金资料"
-  ],
+  "missing": [],
   "warnings": [
     "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
-    "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
+    "FCFF 按同一完整年度的 OCF＋税后利息费用−资本开支估算；不能把供应商直接列出的 FCF 当作 FCFF。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
-    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。"
+    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。",
+    "因 EBIT 口径所需字段不完整，本次 FCFF 改用同一完整年度的经营现金流＋税后利息费用−资本开支；不等同供应商直接列出的 FCF，股票薪酬与其他非现金调整需要另行核对。"
   ],
   "components": {
     "ebit": 129039000000,
     "taxRate": 0.16783146336242177,
     "depreciation": null,
     "capex": 91447000000,
+    "interest": 736000000,
     "deltaWorkingCapital": -3785000000,
     "workingCapital": -21554000000,
     "previousWorkingCapital": -17769000000,
@@ -113,6 +114,20 @@
       "filed": "2026-02-05",
       "frame": "CY2025",
       "tag": "NetCashProvidedByUsedInOperatingActivities",
+      "namespace": "us-gaap",
+      "unit": "USD"
+    },
+    {
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "val": 736000000,
+      "accn": "0001652044-26-000018",
+      "fy": 2025,
+      "fp": "FY",
+      "form": "10-K",
+      "filed": "2026-02-05",
+      "frame": "CY2025",
+      "tag": "InterestExpenseNonoperating",
       "namespace": "us-gaap",
       "unit": "USD"
     },

@@ -3,7 +3,7 @@
   "name": "MICROSOFT CORP",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-11T03:59:50.844Z",
+  "retrievedAt": "2026-10-12T01:34:06.985Z",
   "period": {
     "start": "2025-07-01",
     "end": "2026-06-30",
@@ -13,7 +13,8 @@
   "sharesEnd": "2026-07-23",
   "sic": "7372",
   "sicDescription": "Services-Prepackaged Software",
-  "fcff": null,
+  "fcff": 69446219924.78937,
+  "fcffMethod": "cfo-after-tax-interest",
   "cash": 76843000000,
   "debt": null,
   "shares": 7425545491,
@@ -25,21 +26,22 @@
   "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm",
   "missing": [
-    "年度 FCFF：缺少可匹配的税率、折旧、资本开支或营运资金资料",
     "有息债务：无法确认完整口径"
   ],
   "warnings": [
     "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
-    "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
+    "FCFF 按同一完整年度的 OCF＋税后利息费用−资本开支估算；不能把供应商直接列出的 FCF 当作 FCFF。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
-    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。"
+    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。",
+    "因 EBIT 口径所需字段不完整，本次 FCFF 改用同一完整年度的经营现金流＋税后利息费用−资本开支；不等同供应商直接列出的 FCF，股票薪酬与其他非现金调整需要另行核对。"
   ],
   "components": {
     "ebit": 155237000000,
     "taxRate": 0.19396265985271252,
     "depreciation": null,
     "capex": 115948000000,
+    "interest": 3051000000,
     "deltaWorkingCapital": null,
     "workingCapital": null,
     "previousWorkingCapital": -41653000000,
@@ -114,6 +116,20 @@
       "filed": "2026-07-29",
       "frame": "CY2026",
       "tag": "NetCashProvidedByUsedInOperatingActivities",
+      "namespace": "us-gaap",
+      "unit": "USD"
+    },
+    {
+      "start": "2025-07-01",
+      "end": "2026-06-30",
+      "val": 3051000000,
+      "accn": "0001193125-26-323660",
+      "fy": 2026,
+      "fp": "FY",
+      "form": "10-K",
+      "filed": "2026-07-29",
+      "frame": "CY2026",
+      "tag": "InterestExpenseNonoperating",
       "namespace": "us-gaap",
       "unit": "USD"
     },

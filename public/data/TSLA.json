@@ -3,7 +3,7 @@
   "name": "Tesla, Inc.",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-11T03:59:54.248Z",
+  "retrievedAt": "2026-10-12T01:34:11.633Z",
   "period": {
     "start": "2025-01-01",
     "end": "2025-12-31",
@@ -13,7 +13,8 @@
   "sharesEnd": "2026-07-16",
   "sic": "3711",
   "sicDescription": "Motor Vehicles & Passenger Car Bodies",
-  "fcff": null,
+  "fcff": 6466871921.182266,
+  "fcffMethod": "cfo-after-tax-interest",
   "cash": 43524000000,
   "debt": null,
   "shares": 3949547394,
@@ -25,21 +26,22 @@
   "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm",
   "missing": [
-    "年度 FCFF：缺少可匹配的税率、折旧、资本开支或营运资金资料",
     "有息债务：无法确认完整口径"
   ],
   "warnings": [
     "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
-    "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
+    "FCFF 按同一完整年度的 OCF＋税后利息费用−资本开支估算；不能把供应商直接列出的 FCF 当作 FCFF。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
-    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。"
+    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。",
+    "因 EBIT 口径所需字段不完整，本次 FCFF 改用同一完整年度的经营现金流＋税后利息费用−资本开支；不等同供应商直接列出的 FCF，股票薪酬与其他非现金调整需要另行核对。"
   ],
   "components": {
     "ebit": 4355000000,
     "taxRate": 0.2696097006441834,
     "depreciation": null,
     "capex": 8527000000,
+    "interest": 338000000,
     "deltaWorkingCapital": -881000000,
     "workingCapital": -5562000000,
     "previousWorkingCapital": -4681000000,
@@ -114,6 +116,20 @@
       "filed": "2026-01-29",
       "frame": "CY2025",
       "tag": "NetCashProvidedByUsedInOperatingActivities",
+      "namespace": "us-gaap",
+      "unit": "USD"
+    },
+    {
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "val": 338000000,
+      "accn": "0001628280-26-003952",
+      "fy": 2025,
+      "fp": "FY",
+      "form": "10-K",
+      "filed": "2026-01-29",
+      "frame": "CY2025",
+      "tag": "InterestExpenseNonoperating",
       "namespace": "us-gaap",
       "unit": "USD"
     },
