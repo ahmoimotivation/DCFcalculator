@@ -93,7 +93,8 @@ function renderCompany(data) {
   $('data-mode').classList.toggle('preset', data.mode === 'preset');
   document.querySelectorAll('[data-symbol]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.symbol === data.symbol)));
   $('data-mode').classList.toggle('snapshot', data.mode === 'snapshot');
-  $('dates').textContent = `年度现金流：${data.period.end} · 资产负债：${data.balanceEnd} · 股数：${data.sharesEnd || '供应商未注明日期'}`;
+  $('cashflow-basis').textContent = `现金流使用最新完整财年${data.period.start ? '（' + data.period.start + ' 至 ' + data.period.end + '）' : '（截至 ' + data.period.end + '）'}，不是最近十二个月（TTM）。现金、债务与股数各自采用所示日期。`;
+  $('dates').textContent = `完整财年现金流截至：${data.period.end} · 现金与债务截至：${data.balanceEnd} · 股数截至：${data.sharesEnd || '供应商未注明日期'}`;
   const cards = [
     ['年度 FCFF 估算', data.modelBlocked ? '需专用模型' : billion(data.fcff), 'USD billion · 年度经营口径'],
     ['现金及短期金融投资', billion(data.cash), 'USD billion · 财报账面值'],
@@ -137,7 +138,7 @@ async function lookup(symbol) {
   company = null; $('company').hidden = true; $('calc-button').disabled = true; dirty();
   $('symbol').value = symbol;
   document.querySelectorAll('[data-symbol]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.symbol === symbol)));
-  if (previousSymbol !== symbol) for (let i = 1; i <= 5; i++) $(`growth-${i}`).value = '';
+  if (previousSymbol !== symbol) $('growth').value = '';
   $('load').disabled = true; $('load').textContent = '正在读取…';
   status(`正在读取 ${symbol} 的财报资料…`);
   let preset;
@@ -175,7 +176,7 @@ async function lookup(symbol) {
     if (version !== loadVersion) return;
     // Preserve student edits made while the online check was in flight.
     if (!edited) renderCompany(data);
-    status(edited ? `${symbol} 在线检查已完成。保留你已修改的资料与假设。` : data.mode === 'live' ? data.missing.length ? `${symbol} 的资料已读取，部分字段需要在进阶假设中核对。` : `${symbol} 的财报资料已读取。填写五年的增长假设，再计算。` : `${liveError || ''} ${symbol} 的${data.mode === 'preset' ? '课程预设' : '财报快照'}已载入，请留意资料日期。`);
+    status(edited ? `${symbol} 在线检查已完成。保留你已修改的资料与假设。` : data.mode === 'live' ? data.missing.length ? `${symbol} 的资料已读取，部分字段需要在进阶假设中核对。` : `${symbol} 的财报资料已读取。填写未来五年的平均年增长率，再计算。` : `${liveError || ''} ${symbol} 的${data.mode === 'preset' ? '课程预设' : '财报快照'}已载入，请留意资料日期。`);
   } catch (error) {
     if (version !== loadVersion) return;
     status(error.name === 'AbortError' ? '读取超时，请稍后重试。' : error.message, true);
@@ -194,15 +195,14 @@ function readInputs() {
     const n = Number($(key).value);
     input[key] = ['discount', 'terminal'].includes(key) ? n / 100 : n * 1e9;
   }
-  input.growthRates = [1, 2, 3, 4, 5].map(year => {
-    const value = $(`growth-${year}`).value.trim();
-    if (!value) throw new Error(`请填写第 ${year} 年的增长率。`);
-    return Number(value) / 100;
-  });
+  const growth = $('growth').value.trim();
+  if (!growth) throw new Error('请填写未来五年的平均年增长率。');
+  input.averageGrowth = Number(growth) / 100;
+  input.growthRates = Array(5).fill(input.averageGrowth);
   return input;
 }
 function renderResults(input, result) {
-  $('result-subtitle').textContent = `${company.symbol} · 五年增长 ${input.growthRates.map(pct).join(" → ")} · 折现率 ${pct(input.discount)} · 永续增长 ${pct(input.terminal)}${edited ? ' · 已调整输入' : ''}`;
+  $('result-subtitle').textContent = `${company.symbol} · 五年平均年增长 ${pct(input.averageGrowth)} · 折现率 ${pct(input.discount)} · 永续增长 ${pct(input.terminal)}${edited ? ' · 已调整输入' : ''}`;
   $('fair-value').textContent = price(result.price);
   $('ev').textContent = billion(result.operatingValue);
   $('equity').textContent = billion(result.equityValue);
@@ -215,13 +215,13 @@ function renderResults(input, result) {
   if (result.equityValue < 0) issues.push('这些假设下普通股权益为负，不能将结果解释为负股价或交易信号。');
   if (input.terminal > 0.04) issues.push('永续增长高于 4%，请核对长期经济增长、币种与再投资需求是否支持这个假设。');
   if (input.discount - input.terminal < 0.02) issues.push('折现率与永续增长率相差不足 2 个百分点，终值会对微小变化非常敏感。');
-  if (input.growthRates.some(growth => growth > 0.3)) issues.push('部分年度增长高于 30%，请说明业务及再投资依据，并比较较低增长情境。');
+  if (input.growthRates.some(growth => growth > 0.3)) issues.push('五年平均年增长高于 30%，请说明业务及再投资依据，并比较较低增长情境。');
   $('result-warning').hidden = !issues.length; $('result-warning').textContent = issues.join(' ');
   $('forecast-rows').innerHTML = result.years.map(row => `<tr><td>第 ${row.year} 年</td><td>${pct(row.growth)}</td><td>${number(row.cashFlow / 1e9)}</td><td>${number(row.pv / 1e9)}</td></tr>`).join('') + `<tr class="total-row"><td>第五年之后</td><td>${pct(input.terminal)}</td><td>${number(result.terminalValue / 1e9)}</td><td>${number(result.pvTerminal / 1e9)}</td></tr>`;
   $('scenario-cards').innerHTML = [-0.05, 0, 0.05].map((shift, index) => {
     let val; const growthRates = input.growthRates.map(growth => growth + shift);
     try { val = price(calculateDCF({ ...input, growthRates }).price); } catch { val = '超出范围'; }
-    return `<div class="scenario ${index === 1 ? 'current' : ''}"><span>${['较低增长', '你的假设', '较高增长'][index]}<small>${shift === 0 ? "保持各年输入" : `各年 ${shift > 0 ? "+" : "−"}5 个百分点`}</small></span><b>${val}</b></div>`;
+    return `<div class="scenario ${index === 1 ? 'current' : ''}"><span>${['较低增长', '你的假设', '较高增长'][index]}<small>${shift === 0 ? "保持平均年增长率" : `平均年增长 ${shift > 0 ? "+" : "−"}5 个百分点`}</small></span><b>${val}</b></div>`;
   }).join('');
   const grid = sensitivity(input);
   $('sensitivity-table').innerHTML = `<thead><tr><th>折现率 ↓ ／ 永续增长 →</th>${grid[0].cells.map(c => `<th>${pct(c.terminal)}</th>`).join('')}</tr></thead><tbody>${grid.map((row, i) => `<tr><th>${pct(row.discount)}</th>${row.cells.map((cell, j) => `<td class="${i === 2 && j === 2 ? 'center' : ''}">${cell.price === null ? '不适用' : price(cell.price)}</td>`).join('')}</tr>`).join('')}</tbody>`;
@@ -249,7 +249,7 @@ $('calculate').addEventListener('submit', e => {
     const input = readInputs(); renderResults(input, calculateDCF(input));
   } catch (error) { $('calc-error').textContent = error.message; $('calc-error').hidden = false; if (company?.missing.length) $('advanced').open = true; }
 });
-for (const year of [1, 2, 3, 4, 5]) $(`growth-${year}`).addEventListener('input', dirty);
+$('growth').addEventListener('input', dirty);
 for (const key of ['fcff', 'cash', 'debt', 'shares', 'discount', 'terminal', 'adjustment']) $(key).addEventListener('input', () => { edited = true; dirty(); updateAssumptions(); });
 $('reset').addEventListener('click', () => { if (company) { fillInputs(); dirty(); } });
 $('download').addEventListener('click', () => {
