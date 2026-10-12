@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { applyCompanyAssumptions } from '../public/valuation-assumptions.mjs';
+import { applyCompanyAssumptions, preferPublishedCompanyModel } from '../public/valuation-assumptions.mjs';
 import { parseStatistics, parseTerminalModel, loadCompanyAssumptions } from '../lib/company-assumptions.mjs';
 const seeds = JSON.parse(await readFile(new URL('../public/data/company-assumptions.json',import.meta.url)));
 test('NVIDIA and Amazon use their own published company WACC and separately attributed terminal assumptions', () => {
@@ -11,7 +11,7 @@ test('NVIDIA and Amazon use their own published company WACC and separately attr
     assert.ok(Number.isFinite(seeds[symbol].terminal.value));
     assert.ok(seeds[symbol].terminal.asOf);
   }
-  assert.match(seeds.NVDA.discount.sourceUrl,/nvda/);
+  assert.match(seeds.NVDA.discount.sourceUrl,/NVDA/);
   assert.match(seeds.AMZN.terminal.sourceUrl,/AMZN/);
   assert.equal(seeds.NVDA.terminal.kind,'published-company-model-assumption');
 });
@@ -32,8 +32,10 @@ test('the statistics parser preserves provider precision and source date and nev
 });
 test('terminal parser requires the intended company, a dated published cash-flow model and real parameter', () => {
   const model={ model_metadata:{is_ddm:false,forecast_years:[2027,2028,2029,2030,2031,2032,2033]},audit_trail_map:{Replica_Terminal_Growth:.025,Replica_Discount_Rate:.09,Replica_Source_Updated:'2026-08-27T08:30:21Z'},notes:'brace }; in a string cannot end the JSON prematurely'};
-  const html=`const serverData = ${JSON.stringify(model)}; const pageMeta = {"created_at":"2026-09-17T16:33:37Z"}; var GEN_SYMBOL = "NVDA";`;
+  const html=`const serverData = ${JSON.stringify(model)}; const pageMeta = {"created_at":"2026-09-17T16:33:37Z"}; var GEN_SYMBOL = "NVDA"; "DCF (FCFF @ WACC)";`;
   assert.equal(parseTerminalModel(html,'NVDA','').value,.025);
+  assert.equal(parseTerminalModel(html,'NVDA','').modelBasis,'FCFF@WACC');
+  assert.equal(parseTerminalModel(html.replace('DCF (FCFF @ WACC)','other model'),'NVDA','').modelBasis,null);
   assert.equal(parseTerminalModel(html,'AMZN',''),null);
   assert.equal(parseTerminalModel(html.replace('"is_ddm":false','"is_ddm":true'),'NVDA',''),null);
   assert.equal(parseTerminalModel(html.replace('"Replica_Terminal_Growth":0.025,',''),'NVDA',''),null);
@@ -46,4 +48,17 @@ test('source outages retain dated same-company records, with no industry substit
   const missing=await loadCompanyAssumptions('ZZZZ',{fetcher});
   assert.equal(missing.discount,null);assert.equal(missing.terminal,null);
   await assert.rejects(loadCompanyAssumptions('https://example.com',{fetcher}));
+});
+
+test('NVIDIA pairs its reviewed published FCFF rates without replacing other companies or losing the independent comparison', () => {
+  const selected=preferPublishedCompanyModel({...seeds.NVDA,discount:seeds.NVDA.discountComparison});
+  assert.equal(selected.discount.value,.09);
+  assert.equal(selected.discount.provider,'Trefis');
+  assert.ok(Math.abs(selected.discountComparison.value-.16332)<1e-12);
+  assert.deepEqual(preferPublishedCompanyModel(selected),selected);
+  assert.equal(preferPublishedCompanyModel(seeds.AMZN),seeds.AMZN);
+  for (const override of [{modelBasis:null},{modelDiscount:0},{modelDiscount:NaN},{value:.10}]) {
+    const invalid={...seeds.NVDA,terminal:{...seeds.NVDA.terminal,...override}};
+    assert.equal(preferPublishedCompanyModel(invalid),invalid);
+  }
 });
