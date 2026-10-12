@@ -1,4 +1,5 @@
 import { loadCompany, normalizeSymbol, searchCompanies } from '../lib/sec.mjs';
+import { loadCompanyAssumptions } from '../lib/company-assumptions.mjs';
 const attempts = new Map();
 export default async function handler(req, res) {
   const origin = req.headers.origin;
@@ -10,7 +11,8 @@ export default async function handler(req, res) {
   const responseCache = permitted.length > 1 ? 'private, max-age=300' : 'public, max-age=300, s-maxage=3600';
   if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: '只支持读取资料。' }); }
   const searchRequest = req.query?.q !== undefined;
-  const ip = `${req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown'}:${searchRequest ? 'search' : 'data'}`;
+  const assumptionsRequest = req.query?.assumptions === '1';
+  const ip = `${req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown'}:${searchRequest ? 'search' : assumptionsRequest ? 'assumptions' : 'data'}`;
   const entry = attempts.get(ip);
   const windowStart = entry && Date.now() - entry.start < 60000 ? entry : { start: Date.now(), count: 0 };
   windowStart.count += 1; attempts.set(ip, windowStart);
@@ -23,6 +25,11 @@ export default async function handler(req, res) {
       return res.status(200).json(result);
     }
     const symbol = normalizeSymbol(req.query?.symbol);
+    if (assumptionsRequest) {
+      const data = await loadCompanyAssumptions(symbol);
+      res.setHeader('Cache-Control', responseCache);
+      return res.status(200).json(data);
+    }
     const data = await loadCompany(symbol);
     res.setHeader('Cache-Control', responseCache);
     return res.status(200).json(data);
