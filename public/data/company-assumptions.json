@@ -4,14 +4,15 @@
     "scope": "company",
     "checkedAt": "2026-10-12",
     "discount": {
-      "value": 0.16332000000000002,
-      "provider": "Stock Analysis / S&P Global Market Intelligence",
-      "label": "Weighted Average Cost of Capital (WACC)",
-      "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
-      "asOf": "2026-10-11",
+      "value": 0.09,
+      "provider": "Trefis",
+      "label": "Published FCFF model WACC",
+      "sourceUrl": "https://www.trefis.com/data/valuation/NVDA?from=interactiveAnalysis",
+      "asOf": "2026-08-27",
+      "pageCreated": "2026-09-17",
       "mode": "saved",
       "kind": "company-wacc-estimate",
-      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      "method": "NVIDIA 采用同公司 Trefis 已发布 FCFF 模型的 WACC，与终值假设配对；不是行业平均或市场共识。公开页面未提供可完整重现的 CAPM、债务成本与权重参数。"
     },
     "terminal": {
       "value": 0.025,
@@ -24,7 +25,8 @@
       "kind": "published-company-model-assumption",
       "modelDiscount": 0.09,
       "forecastYears": 7,
-      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。",
+      "modelBasis": "FCFF@WACC"
     },
     "context": {
       "beta5Y": 2.216,
@@ -34,9 +36,18 @@
       "asOf": "2026-10-11"
     },
     "warnings": [
-      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
       "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
-    ]
+    ],
+    "discountComparison": {
+      "value": 0.16332000000000002,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    }
   },
   "AMZN": {
     "symbol": "AMZN",
