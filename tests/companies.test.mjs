@@ -20,10 +20,11 @@ test('the entire course roster has presets; eligible companies produce finite va
   for (const c of researchCompanies) {
     const p = presets[c.symbol]; assert.ok(p, c.symbol);
     assert.ok(p.period.end >= '2025-09-01', `${c.symbol} must not silently use old annual facts`);
-    for (const key of ['cash', 'debt', 'shares', 'discount', 'terminal']) assert.ok(Number.isFinite(p[key]), `${c.symbol}:${key}`);
+    for (const key of ['cash', 'debt', 'shares', 'discount']) assert.ok(Number.isFinite(p[key]), `${c.symbol}:${key}`);
     if (p.modelBlocked) { assert.equal(c.symbol, 'UNH'); assert.equal(p.fcff, null); continue; }
     assert.ok(p.fcff > 0);
-    const result = calculateDCF({ ...p, growthRates: [.1, .09, .08, .07, .06] });
+    if (p.terminal === null) assert.throws(() => calculateDCF({ ...p, growthRates: [.1,.1,.1,.1,.1] })); // Student must explicitly supply missing assumption.
+    const result = calculateDCF({ ...p, terminal: p.terminal ?? .02, growthRates: [.1, .09, .08, .07, .06] });
     assert.ok(Number.isFinite(result.price));
   }
 });

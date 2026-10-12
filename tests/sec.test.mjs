@@ -12,7 +12,8 @@ test('NVDA real filing: financial balance does not use public float or EPS weigh
   assert.equal(data.cash, 99369000000);
   assert.equal(data.period.end, '2026-01-25');
   assert.equal(data.missing.length, 0);
-  assert.ok(Math.abs(data.discount - .1055) < 1e-12);
+  assert.equal(data.discount, null); // A filing does not supply a company WACC.
+  assert.equal(data.terminal, null); // No common 2.5% substitute.
   assert.equal(data.components.simpleFCF, 96676000000);
   assert.notEqual(data.fcff, data.components.simpleFCF);
 });
