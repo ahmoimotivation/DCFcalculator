@@ -1,19 +1,20 @@
 # F U MONEY · DCF 学生计算器
 
-输入美股代码，自动读取 SEC 财报并填入财务数值；学生填写一个 **未来五年平均年增长率（FCFF）** 后计算；五年使用同一增长率逐年复利。中文界面，手机可用，无需学生注册或填写 API key。
+输入美股代码，自动读取 SEC 财报并填入财务数值；学生填写一个 **未来五年平均年增长率（FCFF）** 后计算；五年使用同一增长率逐年复利。有公司估值参数缺少独立来源时，还须补填并写下依据。中文界面，手机可用，无需学生注册或填写 API key。
 
 ## 目前能做什么
 
 - 读取 USD / US-GAAP、10-K 与 10-Q 的公开财报；代码支持 `NVDA`，也接受 `NVIDIA`。
 - 自动读取年度 FCFF 估算所需资料、最新可匹配的现金及短期投资、已披露有息债务、在外股数；保留每个原始 SEC 项目、期间、披露日期与财报链接。
-- 自动填入 NYU Stern / Aswath Damodaran 的 **行业资本成本参考**。这不是公司专属 WACC。
+- WACC 采用 Stock Analysis / S&P Global Market Intelligence 公开的 **同公司 WACC 估算**，显示独立来源与数据日期；未取得时保持空白，不采用行业或市场平均。
+- 永续增长参考来自 Trefis 已发布的 **同公司模型假设**，不是管理层的永久增长预测；来源和原模型预测期限公开。无可核对的公司模型时不填统一 2.5%。
 - 五年预测、终值、每股估值、增长情境、折现率／永续增长率敏感度表与计算记录下载。
-- 行业参考、永续增长率及所有财务输入可调整；修改后旧结果立即隐藏，需重新计算。
+- 公司 WACC 估算、永续增长假设及所有财务输入可调整；修改后旧结果立即隐藏，需重新计算。
 - 在线服务不可用时尝试有日期的财报快照；界面明确说明快照状态。
 - 缺失资料保留为空，不会当作零。部分公司的标准 SEC 标签不足，需教师补充核对；不宣称覆盖所有美股。
 - 默认不处理金融、房地产、ETF、外币报表及负 FCFF 估值。
 
-课程研究名单：NVDA、AMZN、GOOGL、META、JNJ、LLY、NOW、AAPL、V、UNH、TSM。前十家经营公司（不含 UNH）的财报预设可以载入后填写五年增长率直接试算。UNH 包含保险业务，提供财报研究资料并明确提示需要专用模型，本版不自动输出常规企业 DCF 估值。
+课程研究名单：NVDA、AMZN、GOOGL、META、JNJ、LLY、NOW、AAPL、V、UNH、TSM。非保险公司的财报预设可载入；若终值参数有公开来源，填写五年增长率后可以试算。GOOGL、LLY、NOW、TSM 的终值来源目前未取得，保持空白，须补填并说明依据。UNH 包含保险业务，提供财报研究资料并明确提示需要专用模型，本版不自动输出常规企业 DCF 估值。
 
 `public/data/course-presets.json` 保存逐家公司核对的默认资料。在线资料完整且适用时使用 SEC；字段不足、年度过旧或无法读取时保留带日期的课程预设。TSM 使用美元报表换算及 ADS 等值总股数（1 ADS＝5 台湾普通股），来源明确标记。Moomoo 核对预设来自本机 OpenD 的只读财报查询，不需要学生连接 OpenD；不是每日同步。
 
@@ -61,13 +62,13 @@ SEC 不支持浏览器跨域读取，因此本项目通过后端读取并缓存�
 本地运行：
 
 ```sh
-node scripts/update-wacc.mjs
+node scripts/update-assumptions.mjs
 npm run refresh
 ```
 
 在 `scripts/symbols.json` 添加希望预存的股票代码。新增代码并不保证其所有标签都被自动支持。
 
-仓库 Secrets 中设置 `SEC_USER_AGENT`，则 `.github/workflows/refresh.yml` 可手动执行或每周一马来西亚时间 06:30 更新 NYU 行业数据与 SEC 快照，再部署 Pages。失败时旧财务快照不被覆盖。GitHub Actions 的定时执行可能延迟；财报不是每日产生的新数据。这个工作流只适用于把本项目放在仓库根目录的情况。
+仓库 Secrets 中设置 `SEC_USER_AGENT`，则 `.github/workflows/refresh.yml` 可手动执行或每周一马来西亚时间 06:30 更新公司 WACC／同公司已发布终值模型及 SEC 快照，再部署 Pages。失败时旧财务快照不被覆盖。GitHub Actions 的定时执行可能延迟；财报不是每日产生的新数据。这个工作流只适用于把本项目放在仓库根目录的情况。
 
 公开网页无需密码，数据均来自公开财报。运行实例内有查询频率限制和缓存；大量学生并发使用时应增加平台级限流，必要时由教师扩展快照名单。
 
@@ -87,7 +88,7 @@ FCFF_t = FCFF_(t−1) × (1 + 第 t 年增长率)，t = 1…5
 每股估值 = 普通股权益 / 在外流通股数
 ```
 
-永续增长率必须低于折现率，默认 `2.5%` 仅是可修改的示例假设。负权益显示“权益不足”，不输出买卖信号。
+永续增长率必须低于折现率。没有统一的默认增长率；仅当存在同公司已发布模型时填入其参考假设，无来源或自行修改时必须说明依据。负权益显示“权益不足”，不输出买卖信号。
 
 - **FCFF 是估算**：广义营运资金包含部分非经营项目；并购、税率异常、一次性损益、资本化研发等需要专业调整。不得将本模型称为完整机构估值。
 - 本版没有自动把公司 FCF 当作 FCFF，也不会把全部 current liabilities 作为债务扣除。页面原始资料中列出 OCF 和 CapEx，便于核对差异。
@@ -95,12 +96,15 @@ FCFF_t = FCFF_(t−1) × (1 + 第 t 年增长率)，t = 1…5
 - 债务／投资采用财报金额近似；经营租赁作为经营费用处理。财务租赁、养老金、优先股、期权、股权激励稀释与少数股东权益并未完整建模。
 - 现金及金融投资按已识别的短期／流动资产口径加入，未自动估计经营所需现金；长期非经营投资没有自动加入。教师需在“其他权益净调整”中合理处理。
 - 股数采用披露的普通股在外股数，不用 public float 或 EPS 加权平均稀释股数。有多种股权类别时标准数据可能缺失；不会将单一类别误当全部股数。
-- 折现率是 SIC 行业对应到 Damodaran 的行业参考；无法精确对应时采用美国非金融市场平均并提示。公司专属 WACC 需要公司 Beta、市场融资权重、债务成本和税率，当前并未自动推算。
+- WACC 是供应商对该公司的估算，供应商没有公开可完整重现的所有参数；本项目并未自行重算或声称是公司官方 WACC。公司 Beta、ROIC 与三年营收预测仅为辅助资料，不直接当永续增长率。
+- 默认 WACC 与终值假设来自不同供应商。Trefis 原模型通常预测七年，并有自己的折现率、再投资和分部预测；本模型使用五年 FCFF 增长，不能声称复现 Trefis 的估值。借用其终值增长率不等于验证第五年已达到稳态。
 
 ## 资料来源
 
 - [SEC EDGAR API 文档与访问要求](https://www.sec.gov/search-filings/edgar-application-programming-interfaces)
-- [NYU Stern 行业资本成本](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html)，Aswath Damodaran；种子数据为 2026-01。
+- [Stock Analysis 公司统计](https://stockanalysis.com/stocks/nvda/statistics/)，同公司 WACC、Beta、ROIC 与营收预测。
+- [Trefis 公司估值模型](https://www.trefis.com/data/valuation/NVDA?from=interactiveAnalysis)，同公司已发布终值参数。
+- [Damodaran 稳态增长原则](https://pages.stern.nyu.edu/~adamodar/New_Home_Page/valquestions/stablegrowthrate.htm)，仅为模型方法说明，不用其行业平均填默认值。
 - [CFA Institute FCFF / FCFE 方法](https://www.cfainstitute.org/insights/professional-learning/refresher-readings/2026/free-cash-flow-valuation)
 - [Malaysia SC Finfluencer 资料](https://www.sc.com.my/investor-empowerment/info-on-finfluencer)
 
@@ -123,7 +127,7 @@ tests/               估值计算与财报匹配测试
 
 GitHub Pages 网址：https://ahmoimotivation.github.io/DCFcalculator/ 。界面配色取自 FU Money Chapter 3 的黑、白、橙（#141414 / #EE6A1E / #CC5413）。填写一个未来五年平均年增长率，五年采用相同的年增长率，按上一年 FCFF 连续复利。
 
-GitHub Pages 已连接 https://dcfcalculator-livid.vercel.app 的财报后台，打开页面及按「读取公司资料」时查询最新已披露资料。后台失败时，只有预存股票可回退到带日期的快照；页面会明确标记。财报接口有一小时缓存，且 FCFF 当前仍是最新完整年度口径；WACC 是行业参考，不能宣称所有项目为实时公司数据。
+GitHub Pages 已连接 https://dcfcalculator-livid.vercel.app 的财报后台，打开页面及按「读取公司资料」时查询最新已披露资料。后台失败时，只有预存股票可回退到带日期的快照；页面会明确标记。财报接口有一小时缓存，且 FCFF 当前仍是最新完整年度口径；WACC 是有日期的同公司供应商估算，不能宣称所有项目为实时公司数据。
 
 ### 课程名单预设与名称搜索
 
@@ -131,8 +135,18 @@ GitHub Pages 已连接 https://dcfcalculator-livid.vercel.app 的财报后台，
 
 SEC 限制云端访问公司目录时，使用 `lib/sec-company-directory.json` 的 2026-10-11 官方目录副本，保留名称搜索及 CIK 识别。API 返回 `directoryMode` 与 `directoryAsOf`；目录副本不等于财报副本，之后仍独立读取财报。新增或改名公司的目录需重新保存，线上读取成功时采用在线目录。
 
-FCFF 保留 EBIT 路径；字段不齐时，可使用同年度 OCF＋税后利息费用−资本开支路径，方法和原始项目在页面公开。课程补充预设另核对无形资产资本支出；TSM 使用 EBIT 和现金流表营运资金变动。不同方法不能只比较表面 FCF 数值。所有默认折现率均为行业参考，未来五年增长保持空白。
+FCFF 保留 EBIT 路径；字段不齐时，可使用同年度 OCF＋税后利息费用−资本开支路径，方法和原始项目在页面公开。课程补充预设另核对无形资产资本支出；TSM 使用 EBIT 和现金流表营运资金变动。不同方法不能只比较表面 FCF 数值。默认折现率须有同公司独立来源，未来五年增长保持空白。
 
 每周 SEC 快照更新不自动重建本机 Moomoo 核对的课程预设。课程预设需要教师或维护者在新财报后核对刷新；页面显示日期，不伪装成实时资料。后续要每日 OpenD 同步，需要另外接入定时同步与云端存储，目前未启用。
 
 界面明确标记现金流采用最新完整财年（非 TTM），现金、债务及股数各自采用页面所示日期。例如 AMZN 现金流截至 2025-12-31，不代表 FY2026 或 TTM。
+
+## 公司专属估值依据（2026-10-12 更新）
+
+`public/data/company-assumptions.json` 保存逐公司数据，`lib/company-assumptions.mjs` 读取 Stock Analysis 与公开 Trefis 模型，每个参数保留来源、更新时间、在线／保存状态。`/api/company?symbol=NVDA&assumptions=1` 可独立读取估值依据，不依赖 SEC 财报服务成功。接口与浏览器异步更新均不覆盖学生自行输入的假设。
+
+此次取得 16 家公司的 WACC，其中 12 家有可核对的 Trefis 终值参数；课程名单的 GOOGL、LLY、NOW、TSM 没有取得终值参数，保留空白。同行、市场平均或另一家公司的参数不能补位。旧财务快照会经过 `applyCompanyAssumptions` 清除遗留行业利率与统一终值增长；按来源分别回退，回退保持真实原始日期。
+
+已核对示例：NVDA WACC 16.332%（Stock Analysis 数据日期 2026-10-11）、终值 2.5%（Trefis 基础模型更新 2026-08-27）；AMZN WACC 11.341%（2026-10-11）、终值 2.75%（Trefis 基础模型更新 2026-08-31）。数值相同不能证明由同一行业统一填值；必须检查各自独立来源。
+
+本次只改进 WACC／终值的依据与透明度，FCFF、金融投资和租赁口径仍按本 README 的简化模型限制处理；并未完成机构级估值或证明默认每股估值准确。
