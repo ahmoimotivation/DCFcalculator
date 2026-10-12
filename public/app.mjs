@@ -119,13 +119,20 @@ async function refreshRateEvidence(symbol, version, signal) {
     company = applyCompanyAssumptions(company,rates);
     const before = [$('discount').value, $('terminal').value];
     for (const key of ['discount','terminal']) if (!rateEdits[key]) $(key).value = Number.isFinite(company[key]) ? Number((company[key]*100).toFixed(3)) : '';
-    if (before[0] !== $('discount').value || before[1] !== $('terminal').value) dirty();
+    if (before[0] !== $('discount').value || before[1] !== $('terminal').value) {
+      const hadResult = Boolean(lastCalculation); dirty();
+      if (hadResult) status(`${symbol} 的公司估值参数已更新。请检查新来源并重新计算。`);
+    }
     renderRateEvidence(); updateAssumptions();
   } catch { /* Dated company evidence remains visible; no average is substituted. */ }
 }
 function dirty() { $('results').hidden = true; $('calc-error').hidden = true; lastCalculation = null; }
 function renderCompany(data) {
-  data = applyCompanyAssumptions(data, data.valuationAssumptions || activeAssumptions);
+  const incoming = data.valuationAssumptions;
+  const current = activeAssumptions?.symbol === data.symbol ? activeAssumptions : null;
+  const evidence = current && (!incoming || Date.parse(current.checkedAt) >= Date.parse(incoming.checkedAt)) ? current : incoming;
+  activeAssumptions = evidence || null;
+  data = applyCompanyAssumptions(data, evidence);
   company = data; edited = false; dirty();
   $('symbol').value = data.symbol;
   $('company').hidden = false;
@@ -190,8 +197,8 @@ async function lookup(symbol) {
   let preset;
   try {
     const [presets, seeds] = await Promise.all([presetPromise, assumptionSeedPromise]);
-    preset = presets[symbol]; activeAssumptions = seeds[symbol] || null;
     if (version !== loadVersion) return;
+    preset = presets[symbol]; activeAssumptions = seeds[symbol] || null;
     void refreshRateEvidence(symbol, version, signal);
     if (preset) {
       renderCompany({ ...preset, mode: 'preset' });
