@@ -1,0 +1,578 @@
+{
+  "NVDA": {
+    "symbol": "NVDA",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.16332000000000002,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.025,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/NVDA?from=interactiveAnalysis",
+      "asOf": "2026-08-27",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.09,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 2.216,
+      "roic": 0.9202899999999999,
+      "revenueGrowthForecast3Y": 0.6112,
+      "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "AMZN": {
+    "symbol": "AMZN",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.11341,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/amzn/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.0275,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/AMZN?from=interactiveAnalysis",
+      "asOf": "2026-08-31",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.088,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.456,
+      "roic": 0.11935000000000001,
+      "revenueGrowthForecast3Y": 0.1531,
+      "sourceUrl": "https://stockanalysis.com/stocks/amzn/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "GOOGL": {
+    "symbol": "GOOGL",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.10656,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/googl/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": null,
+    "context": {
+      "beta5Y": 1.211,
+      "roic": 0.24925999999999998,
+      "revenueGrowthForecast3Y": 0.2235,
+      "sourceUrl": "https://stockanalysis.com/stocks/googl/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+    ]
+  },
+  "META": {
+    "symbol": "META",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.10226,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/meta/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.025,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/META?from=interactiveAnalysis",
+      "asOf": "2026-09-01",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.101,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.185,
+      "roic": 0.254,
+      "revenueGrowthForecast3Y": 0.21789999999999998,
+      "sourceUrl": "https://stockanalysis.com/stocks/meta/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "JNJ": {
+    "symbol": "JNJ",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.05119,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/jnj/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.02,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/JNJ?from=interactiveAnalysis",
+      "asOf": "2026-07-20",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.075,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 0.206,
+      "roic": 0.19918,
+      "revenueGrowthForecast3Y": 0.0779,
+      "sourceUrl": "https://stockanalysis.com/stocks/jnj/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "LLY": {
+    "symbol": "LLY",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.06423,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/lly/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": null,
+    "context": {
+      "beta5Y": 0.454,
+      "roic": 0.42235999999999996,
+      "revenueGrowthForecast3Y": 0.2064,
+      "sourceUrl": "https://stockanalysis.com/stocks/lly/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+    ]
+  },
+  "NOW": {
+    "symbol": "NOW",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.09199,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/now/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": null,
+    "context": {
+      "beta5Y": 0.99,
+      "roic": 0.10282999999999999,
+      "revenueGrowthForecast3Y": 0.19879999999999998,
+      "sourceUrl": "https://stockanalysis.com/stocks/now/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+    ]
+  },
+  "AAPL": {
+    "symbol": "AAPL",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.09959,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/aapl/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.025,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/AAPL?from=interactiveAnalysis",
+      "asOf": "2026-08-03",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.075,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.069,
+      "roic": 1.01573,
+      "revenueGrowthForecast3Y": 0.1114,
+      "sourceUrl": "https://stockanalysis.com/stocks/aapl/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "V": {
+    "symbol": "V",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.08299,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/v/statistics/",
+      "asOf": "2026-10-12",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.03,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/V?from=interactiveAnalysis",
+      "asOf": "2026-08-05",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.085,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 0.77,
+      "roic": 0.54822,
+      "revenueGrowthForecast3Y": 0.1193,
+      "sourceUrl": "https://stockanalysis.com/stocks/v/statistics/",
+      "asOf": "2026-10-12"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "UNH": {
+    "symbol": "UNH",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.07083,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/unh/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.02,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/UNH?from=interactiveAnalysis",
+      "asOf": "2026-07-20",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.08,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 0.615,
+      "roic": 0.11367000000000001,
+      "revenueGrowthForecast3Y": 0.0287,
+      "sourceUrl": "https://stockanalysis.com/stocks/unh/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "TSM": {
+    "symbol": "TSM",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.10946,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/tsm/statistics/",
+      "asOf": "2026-10-12",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": null,
+    "context": {
+      "beta5Y": 1.247,
+      "roic": 0.5396,
+      "revenueGrowthForecast3Y": 0.3527,
+      "sourceUrl": "https://stockanalysis.com/stocks/tsm/statistics/",
+      "asOf": "2026-10-12"
+    },
+    "warnings": [
+      "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+    ]
+  },
+  "MSFT": {
+    "symbol": "MSFT",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.10032999999999999,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/msft/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.025,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/MSFT?from=interactiveAnalysis",
+      "asOf": "2026-09-03",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.0825,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.099,
+      "roic": 0.26178999999999997,
+      "revenueGrowthForecast3Y": 0.1973,
+      "sourceUrl": "https://stockanalysis.com/stocks/msft/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "AMD": {
+    "symbol": "AMD",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.17683,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/amd/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.03,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/AMD?from=interactiveAnalysis",
+      "asOf": "2026-09-01",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.095,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 2.454,
+      "roic": 0.09769,
+      "revenueGrowthForecast3Y": 0.5288,
+      "sourceUrl": "https://stockanalysis.com/stocks/amd/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "TSLA": {
+    "symbol": "TSLA",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.14647,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/tsla/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.03,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/TSLA?from=interactiveAnalysis",
+      "asOf": "2026-07-23",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.09,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.916,
+      "roic": 0.054619999999999995,
+      "revenueGrowthForecast3Y": 0.1517,
+      "sourceUrl": "https://stockanalysis.com/stocks/tsla/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "COST": {
+    "symbol": "COST",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.08848,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/cost/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.03,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/COST?from=interactiveAnalysis",
+      "asOf": "2026-05-29",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.067,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 0.87,
+      "roic": 0.37343000000000004,
+      "revenueGrowthForecast3Y": 0.0761,
+      "sourceUrl": "https://stockanalysis.com/stocks/cost/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  },
+  "NFLX": {
+    "symbol": "NFLX",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.12641,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/nflx/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.025,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/NFLX?from=interactiveAnalysis",
+      "asOf": "2026-09-02",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.09,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.613,
+      "roic": 0.32433,
+      "revenueGrowthForecast3Y": 0.1155,
+      "sourceUrl": "https://stockanalysis.com/stocks/nflx/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  }
+}
