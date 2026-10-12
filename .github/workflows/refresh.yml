@@ -20,9 +20,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Refresh industry capital-cost reference
-        run: node scripts/update-wacc.mjs
+      - name: Refresh company-specific valuation evidence
+        run: node scripts/update-assumptions.mjs
       - name: Refresh SEC snapshots
+        continue-on-error: true
         env:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: npm run refresh
