@@ -3,7 +3,7 @@
   "name": "Tesla, Inc.",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-12T01:34:11.633Z",
+  "retrievedAt": "2026-10-11T03:10:44.194Z",
   "period": {
     "start": "2025-01-01",
     "end": "2025-12-31",
@@ -13,35 +13,32 @@
   "sharesEnd": "2026-07-16",
   "sic": "3711",
   "sicDescription": "Motor Vehicles & Passenger Car Bodies",
-  "fcff": 6466871921.182266,
-  "fcffMethod": "cfo-after-tax-interest",
+  "fcff": null,
   "cash": 43524000000,
   "debt": null,
   "shares": 3949547394,
-  "discount": 0.09380000000000001,
-  "terminal": 0.025,
+  "discount": 0.14647,
+  "terminal": 0.03,
   "adjustment": 0,
   "industry": "Auto & Truck",
-  "waccAsOf": "2026-01",
-  "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+  "waccAsOf": "2026-10-11",
+  "waccSource": "https://stockanalysis.com/stocks/tsla/statistics/",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026049270/tsla-20260630.htm",
   "missing": [
+    "年度 FCFF：缺少可匹配的税率、折旧、资本开支或营运资金资料",
     "有息债务：无法确认完整口径"
   ],
   "warnings": [
-    "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
-    "FCFF 按同一完整年度的 OCF＋税后利息费用−资本开支估算；不能把供应商直接列出的 FCF 当作 FCFF。",
+    "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
-    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。",
-    "因 EBIT 口径所需字段不完整，本次 FCFF 改用同一完整年度的经营现金流＋税后利息费用−资本开支；不等同供应商直接列出的 FCF，股票薪酬与其他非现金调整需要另行核对。"
+    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。"
   ],
   "components": {
     "ebit": 4355000000,
     "taxRate": 0.2696097006441834,
     "depreciation": null,
     "capex": 8527000000,
-    "interest": 338000000,
     "deltaWorkingCapital": -881000000,
     "workingCapital": -5562000000,
     "previousWorkingCapital": -4681000000,
@@ -116,20 +113,6 @@
       "filed": "2026-01-29",
       "frame": "CY2025",
       "tag": "NetCashProvidedByUsedInOperatingActivities",
-      "namespace": "us-gaap",
-      "unit": "USD"
-    },
-    {
-      "start": "2025-01-01",
-      "end": "2025-12-31",
-      "val": 338000000,
-      "accn": "0001628280-26-003952",
-      "fy": 2025,
-      "fp": "FY",
-      "form": "10-K",
-      "filed": "2026-01-29",
-      "frame": "CY2025",
-      "tag": "InterestExpenseNonoperating",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -276,5 +259,44 @@
       "namespace": "us-gaap",
       "unit": "USD"
     }
-  ]
+  ],
+  "valuationAssumptions": {
+    "symbol": "TSLA",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.14647,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/tsla/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.03,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/TSLA?from=interactiveAnalysis",
+      "asOf": "2026-07-23",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.09,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.916,
+      "roic": 0.054619999999999995,
+      "revenueGrowthForecast3Y": 0.1517,
+      "sourceUrl": "https://stockanalysis.com/stocks/tsla/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  }
 }

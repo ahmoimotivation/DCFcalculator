@@ -18,16 +18,15 @@
     "cash": 99369000000,
     "debt": 33366000000,
     "shares": 24100000000,
-    "discount": 0.10550000000000001,
+    "discount": 0.16332000000000002,
     "terminal": 0.025,
     "adjustment": 0,
     "industry": "Semiconductor",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/nvda/statistics/",
     "reportUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
     "missing": [],
     "warnings": [
-      "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
       "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
       "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
@@ -377,7 +376,46 @@
         "unit": "USD"
       }
     ],
-    "sourceName": "SEC 已核对财报预设"
+    "sourceName": "SEC 已核对财报预设",
+    "valuationAssumptions": {
+      "symbol": "NVDA",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.16332000000000002,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.025,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/NVDA?from=interactiveAnalysis",
+        "asOf": "2026-08-27",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.09,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 2.216,
+        "roic": 0.9202899999999999,
+        "revenueGrowthForecast3Y": 0.6112,
+        "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "AMZN": {
     "symbol": "AMZN",
@@ -398,16 +436,15 @@
     "cash": 122988000000,
     "debt": 132549000000,
     "shares": 10786313572,
-    "discount": 0.0727,
-    "terminal": 0.025,
+    "discount": 0.11341,
+    "terminal": 0.0275,
     "adjustment": 0,
     "industry": "Retail (General)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/amzn/statistics/",
     "reportUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm",
     "missing": [],
     "warnings": [
-      "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
       "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
       "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
@@ -770,7 +807,46 @@
         "unit": "USD"
       }
     ],
-    "sourceName": "SEC 已核对财报预设"
+    "sourceName": "SEC 已核对财报预设",
+    "valuationAssumptions": {
+      "symbol": "AMZN",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.11341,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/amzn/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.0275,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/AMZN?from=interactiveAnalysis",
+        "asOf": "2026-08-31",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.088,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 1.456,
+        "roic": 0.11935000000000001,
+        "revenueGrowthForecast3Y": 0.1531,
+        "sourceUrl": "https://stockanalysis.com/stocks/amzn/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "GOOGL": {
     "symbol": "GOOGL",
@@ -791,17 +867,16 @@
     "cash": 242474000000.0,
     "debt": 100164000000.0,
     "shares": 12230000000,
-    "discount": 0.1066,
-    "terminal": 0.025,
+    "discount": 0.10656,
+    "terminal": null,
     "adjustment": 0,
     "industry": "Software (Internet)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/googl/statistics/",
     "reportUrl": "https://abc.xyz/investor/",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -1607,7 +1682,34 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "GOOGL",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.10656,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/googl/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": null,
+      "context": {
+        "beta5Y": 1.211,
+        "roic": 0.24925999999999998,
+        "revenueGrowthForecast3Y": 0.2235,
+        "sourceUrl": "https://stockanalysis.com/stocks/googl/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+      ]
+    }
   },
   "META": {
     "symbol": "META",
@@ -1628,17 +1730,16 @@
     "cash": 90260000000.0,
     "debt": 83664000000.0,
     "shares": 2547506225,
-    "discount": 0.1066,
+    "discount": 0.10226,
     "terminal": 0.025,
     "adjustment": 0,
     "industry": "Software (Internet)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/meta/statistics/",
     "reportUrl": "https://investor.atmeta.com/financials/",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -2388,7 +2489,46 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "META",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.10226,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/meta/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.025,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/META?from=interactiveAnalysis",
+        "asOf": "2026-09-01",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.101,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 1.185,
+        "roic": 0.254,
+        "revenueGrowthForecast3Y": 0.21789999999999998,
+        "sourceUrl": "https://stockanalysis.com/stocks/meta/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "JNJ": {
     "symbol": "JNJ",
@@ -2409,17 +2549,16 @@
     "cash": 20758000000.0,
     "debt": 49036000000.0,
     "shares": 2409898597,
-    "discount": 0.0785,
-    "terminal": 0.025,
+    "discount": 0.05119,
+    "terminal": 0.02,
     "adjustment": 0,
     "industry": "Drugs (Pharmaceutical)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/jnj/statistics/",
     "reportUrl": "https://www.investor.jnj.com/financials/sec-filings",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -3241,7 +3380,46 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "JNJ",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.05119,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/jnj/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.02,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/JNJ?from=interactiveAnalysis",
+        "asOf": "2026-07-20",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.075,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 0.206,
+        "roic": 0.19918,
+        "revenueGrowthForecast3Y": 0.0779,
+        "sourceUrl": "https://stockanalysis.com/stocks/jnj/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "LLY": {
     "symbol": "LLY",
@@ -3262,17 +3440,16 @@
     "cash": 8950000000.0,
     "debt": 54908000000.0,
     "shares": 941357065,
-    "discount": 0.0785,
-    "terminal": 0.025,
+    "discount": 0.06423,
+    "terminal": null,
     "adjustment": 0,
     "industry": "Drugs (Pharmaceutical)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/lly/statistics/",
     "reportUrl": "https://investor.lilly.com/financial-information/annual-reports",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -4082,7 +4259,34 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "LLY",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.06423,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/lly/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": null,
+      "context": {
+        "beta5Y": 0.454,
+        "roic": 0.42235999999999996,
+        "revenueGrowthForecast3Y": 0.2064,
+        "sourceUrl": "https://stockanalysis.com/stocks/lly/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+      ]
+    }
   },
   "NOW": {
     "symbol": "NOW",
@@ -4103,17 +4307,16 @@
     "cash": 4664000000.0,
     "debt": 7517000000.0,
     "shares": 1033862000,
-    "discount": 0.0934,
-    "terminal": 0.025,
+    "discount": 0.09199,
+    "terminal": null,
     "adjustment": 0,
     "industry": "Software (System & Application)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/now/statistics/",
     "reportUrl": "https://investors.servicenow.com/financials/default.aspx",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -4895,7 +5098,34 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "NOW",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.09199,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/now/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": null,
+      "context": {
+        "beta5Y": 0.99,
+        "roic": 0.10282999999999999,
+        "revenueGrowthForecast3Y": 0.19879999999999998,
+        "sourceUrl": "https://stockanalysis.com/stocks/now/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+      ]
+    }
   },
   "AAPL": {
     "symbol": "AAPL",
@@ -4916,16 +5146,15 @@
     "cash": 62399000000,
     "debt": 84344000000,
     "shares": 14594180000,
-    "discount": 0.0971,
+    "discount": 0.09959,
     "terminal": 0.025,
     "adjustment": 0,
     "industry": "Computers/Peripherals",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/aapl/statistics/",
     "reportUrl": "https://www.sec.gov/Archives/edgar/data/320193/000032019326000020/aapl-20260627.htm",
     "missing": [],
     "warnings": [
-      "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
       "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
       "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
@@ -5288,7 +5517,46 @@
         "unit": "USD"
       }
     ],
-    "sourceName": "SEC 已核对财报预设"
+    "sourceName": "SEC 已核对财报预设",
+    "valuationAssumptions": {
+      "symbol": "AAPL",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.09959,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/aapl/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.025,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/AAPL?from=interactiveAnalysis",
+        "asOf": "2026-08-03",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.075,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 1.069,
+        "roic": 1.01573,
+        "revenueGrowthForecast3Y": 0.1114,
+        "sourceUrl": "https://stockanalysis.com/stocks/aapl/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "V": {
     "symbol": "V",
@@ -5309,17 +5577,16 @@
     "cash": 13792000000.0,
     "debt": 23858000000.0,
     "shares": 1870355259,
-    "discount": 0.0723,
-    "terminal": 0.025,
+    "discount": 0.08299,
+    "terminal": 0.03,
     "adjustment": 0,
     "industry": "Business & Consumer Services",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-12",
+    "waccSource": "https://stockanalysis.com/stocks/v/statistics/",
     "reportUrl": "https://investor.visa.com/financial-information/quarterly-earnings/default.aspx",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -6117,7 +6384,46 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "V",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.08299,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/v/statistics/",
+        "asOf": "2026-10-12",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.03,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/V?from=interactiveAnalysis",
+        "asOf": "2026-08-05",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.085,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 0.77,
+        "roic": 0.54822,
+        "revenueGrowthForecast3Y": 0.1193,
+        "sourceUrl": "https://stockanalysis.com/stocks/v/statistics/",
+        "asOf": "2026-10-12"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "UNH": {
     "symbol": "UNH",
@@ -6138,18 +6444,17 @@
     "cash": 31468000000.0,
     "debt": 73328000000.0,
     "shares": 897594847,
-    "discount": 0.0634,
-    "terminal": 0.025,
+    "discount": 0.07083,
+    "terminal": 0.02,
     "adjustment": 0,
     "industry": "Insurance (General)",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-11",
+    "waccSource": "https://stockanalysis.com/stocks/unh/statistics/",
     "reportUrl": "https://www.unitedhealthgroup.com/investors/financial-reports.html",
     "missing": [],
     "warnings": [
       "UnitedHealth 包含保险业务，保费、赔付准备金、受监管资本和投资资产需使用专用估值模型。以下财报资料供研究，本版不自动输出常规企业 DCF 每股估值。",
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -6901,7 +7206,46 @@
       }
     ],
     "modelBlocked": true,
-    "modelNote": "UnitedHealth 包含保险业务，保费、赔付准备金、受监管资本和投资资产需使用专用估值模型。以下财报资料供研究，本版不自动输出常规企业 DCF 每股估值。"
+    "modelNote": "UnitedHealth 包含保险业务，保费、赔付准备金、受监管资本和投资资产需使用专用估值模型。以下财报资料供研究，本版不自动输出常规企业 DCF 每股估值。",
+    "valuationAssumptions": {
+      "symbol": "UNH",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.07083,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/unh/statistics/",
+        "asOf": "2026-10-11",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": {
+        "value": 0.02,
+        "provider": "Trefis",
+        "label": "Effective Terminal Growth",
+        "sourceUrl": "https://www.trefis.com/data/valuation/UNH?from=interactiveAnalysis",
+        "asOf": "2026-07-20",
+        "pageCreated": "2026-09-17",
+        "mode": "saved",
+        "kind": "published-company-model-assumption",
+        "modelDiscount": 0.08,
+        "forecastYears": 7,
+        "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+      },
+      "context": {
+        "beta5Y": 0.615,
+        "roic": 0.11367000000000001,
+        "revenueGrowthForecast3Y": 0.0287,
+        "sourceUrl": "https://stockanalysis.com/stocks/unh/statistics/",
+        "asOf": "2026-10-11"
+      },
+      "warnings": [
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+        "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+      ]
+    }
   },
   "TSM": {
     "symbol": "TSM",
@@ -6922,17 +7266,16 @@
     "cash": 113049472589.02501,
     "debt": 32420340963.075,
     "shares": 5186504904,
-    "discount": 0.10550000000000001,
-    "terminal": 0.025,
+    "discount": 0.10946,
+    "terminal": null,
     "adjustment": 0,
     "industry": "Semiconductor",
-    "waccAsOf": "2026-01",
-    "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+    "waccAsOf": "2026-10-12",
+    "waccSource": "https://stockanalysis.com/stocks/tsm/statistics/",
     "reportUrl": "https://investor.tsmc.com/english/annual-reports",
     "missing": [],
     "warnings": [
       "这是带日期的课程预设，使用公开财报及 Moomoo 标准化资料核对；不会因为查询而自动更新。",
-      "折现率采用行业资本成本参考，并非这家公司的专属 WACC。",
       "FCFF 为估算。经营现金流路径为 OCF＋税后利息费用−净资本支出（含已披露的无形资产）；需核对股票薪酬、非经常项目与再投资口径。",
       "现金只计现金及短期金融投资；未自动加入受限现金或长期非经营投资。",
       "按账面金额近似有息债务，未重复加入经营租赁；未单独估值期权、优先股、少数股东权益或长期非经营资产。",
@@ -7885,6 +8228,33 @@
         "unit": "shares",
         "filed": "供应商股数，截至查询时"
       }
-    ]
+    ],
+    "valuationAssumptions": {
+      "symbol": "TSM",
+      "scope": "company",
+      "checkedAt": "2026-10-12",
+      "discount": {
+        "value": 0.10946,
+        "provider": "Stock Analysis / S&P Global Market Intelligence",
+        "label": "Weighted Average Cost of Capital (WACC)",
+        "sourceUrl": "https://stockanalysis.com/stocks/tsm/statistics/",
+        "asOf": "2026-10-12",
+        "mode": "saved",
+        "kind": "company-wacc-estimate",
+        "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+      },
+      "terminal": null,
+      "context": {
+        "beta5Y": 1.247,
+        "roic": 0.5396,
+        "revenueGrowthForecast3Y": 0.3527,
+        "sourceUrl": "https://stockanalysis.com/stocks/tsm/statistics/",
+        "asOf": "2026-10-12"
+      },
+      "warnings": [
+        "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+        "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+      ]
+    }
   }
 }

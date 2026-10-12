@@ -3,7 +3,7 @@
   "name": "NVIDIA CORP",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-12T01:34:05.598Z",
+  "retrievedAt": "2026-10-11T03:10:35.087Z",
   "period": {
     "start": "2025-01-27",
     "end": "2026-01-25",
@@ -14,20 +14,18 @@
   "sic": "3674",
   "sicDescription": "Semiconductors & Related Devices",
   "fcff": 94461393983.73982,
-  "fcffMethod": "ebit-working-capital",
   "cash": 99369000000,
   "debt": 33366000000,
   "shares": 24100000000,
-  "discount": 0.10550000000000001,
+  "discount": 0.16332000000000002,
   "terminal": 0.025,
   "adjustment": 0,
   "industry": "Semiconductor",
-  "waccAsOf": "2026-01",
-  "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+  "waccAsOf": "2026-10-11",
+  "waccSource": "https://stockanalysis.com/stocks/nvda/statistics/",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
   "missing": [],
   "warnings": [
-    "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
     "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
@@ -38,7 +36,6 @@
     "taxRate": 0.1511700247437257,
     "depreciation": 2843000000,
     "capex": 6042000000,
-    "interest": 259000000,
     "deltaWorkingCapital": 13016000000,
     "workingCapital": 31885000000,
     "previousWorkingCapital": 18869000000,
@@ -377,5 +374,44 @@
       "namespace": "us-gaap",
       "unit": "USD"
     }
-  ]
+  ],
+  "valuationAssumptions": {
+    "symbol": "NVDA",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.16332000000000002,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.025,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/NVDA?from=interactiveAnalysis",
+      "asOf": "2026-08-27",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.09,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 2.216,
+      "roic": 0.9202899999999999,
+      "revenueGrowthForecast3Y": 0.6112,
+      "sourceUrl": "https://stockanalysis.com/stocks/nvda/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  }
 }

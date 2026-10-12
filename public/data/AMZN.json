@@ -3,7 +3,7 @@
   "name": "AMAZON COM INC",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-12T01:34:10.141Z",
+  "retrievedAt": "2026-10-11T03:10:41.712Z",
   "period": {
     "start": "2025-01-01",
     "end": "2025-12-31",
@@ -14,20 +14,18 @@
   "sic": "5961",
   "sicDescription": "Retail-Catalog & Mail-Order Houses",
   "fcff": 22375357945.14496,
-  "fcffMethod": "ebit-working-capital",
   "cash": 122988000000,
-  "debt": 132549000000,
+  "debt": 133320000000,
   "shares": 10786313572,
-  "discount": 0.0727,
-  "terminal": 0.025,
+  "discount": 0.11341,
+  "terminal": 0.0275,
   "adjustment": 0,
   "industry": "Retail (General)",
-  "waccAsOf": "2026-01",
-  "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+  "waccAsOf": "2026-10-11",
+  "waccSource": "https://stockanalysis.com/stocks/amzn/statistics/",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000026/amzn-20260630.htm",
   "missing": [],
   "warnings": [
-    "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
     "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
@@ -38,7 +36,6 @@
     "taxRate": 0.19614432078593375,
     "depreciation": 65756000000,
     "capex": 131819000000,
-    "interest": 2274000000,
     "deltaWorkingCapital": -24150000000,
     "workingCapital": -108748000000,
     "previousWorkingCapital": -84598000000,
@@ -158,14 +155,14 @@
     },
     {
       "end": "2026-06-30",
-      "val": 3330000000,
+      "val": 132995000000,
       "accn": "0001018724-26-000026",
       "fy": 2026,
       "fp": "Q2",
       "form": "10-Q",
       "filed": "2026-07-31",
       "frame": "CY2026Q2I",
-      "tag": "LongTermDebtCurrent",
+      "tag": "LongTermDebt",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -179,19 +176,6 @@
       "filed": "2026-07-31",
       "frame": "CY2026Q2I",
       "tag": "ShortTermBorrowings",
-      "namespace": "us-gaap",
-      "unit": "USD"
-    },
-    {
-      "end": "2026-06-30",
-      "val": 128894000000,
-      "accn": "0001018724-26-000026",
-      "fy": 2026,
-      "fp": "Q2",
-      "form": "10-Q",
-      "filed": "2026-07-31",
-      "frame": "CY2026Q2I",
-      "tag": "LongTermDebtNoncurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -262,14 +246,14 @@
     },
     {
       "end": "2025-12-31",
-      "val": 2748000000,
+      "val": 68836000000,
       "accn": "0001018724-26-000026",
       "fy": 2026,
       "fp": "Q2",
       "form": "10-Q",
       "filed": "2026-07-31",
       "frame": "CY2025Q4I",
-      "tag": "LongTermDebtCurrent",
+      "tag": "LongTermDebt",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -283,19 +267,6 @@
       "filed": "2026-07-31",
       "frame": "CY2025Q4I",
       "tag": "ShortTermBorrowings",
-      "namespace": "us-gaap",
-      "unit": "USD"
-    },
-    {
-      "end": "2025-12-31",
-      "val": 65648000000,
-      "accn": "0001018724-26-000026",
-      "fy": 2026,
-      "fp": "Q2",
-      "form": "10-Q",
-      "filed": "2026-07-31",
-      "frame": "CY2025Q4I",
-      "tag": "LongTermDebtNoncurrent",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -353,14 +324,14 @@
     },
     {
       "end": "2024-12-31",
-      "val": 5017000000,
+      "val": 58000000000,
       "accn": "0001018724-26-000004",
       "fy": 2025,
       "fp": "FY",
       "form": "10-K",
       "filed": "2026-02-06",
       "frame": "CY2024Q4I",
-      "tag": "LongTermDebtCurrent",
+      "tag": "LongTermDebt",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -376,19 +347,45 @@
       "tag": "ShortTermBorrowings",
       "namespace": "us-gaap",
       "unit": "USD"
-    },
-    {
-      "end": "2024-12-31",
-      "val": 52623000000,
-      "accn": "0001018724-26-000004",
-      "fy": 2025,
-      "fp": "FY",
-      "form": "10-K",
-      "filed": "2026-02-06",
-      "frame": "CY2024Q4I",
-      "tag": "LongTermDebtNoncurrent",
-      "namespace": "us-gaap",
-      "unit": "USD"
     }
-  ]
+  ],
+  "valuationAssumptions": {
+    "symbol": "AMZN",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.11341,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/amzn/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": {
+      "value": 0.0275,
+      "provider": "Trefis",
+      "label": "Effective Terminal Growth",
+      "sourceUrl": "https://www.trefis.com/data/valuation/AMZN?from=interactiveAnalysis",
+      "asOf": "2026-08-31",
+      "pageCreated": "2026-09-17",
+      "mode": "saved",
+      "kind": "published-company-model-assumption",
+      "modelDiscount": 0.088,
+      "forecastYears": 7,
+      "method": "引用同一家公司的已发布 DCF 模型终值增长假设，不是管理层指引；完整终值经济参数没有在公开页面全部披露。"
+    },
+    "context": {
+      "beta5Y": 1.456,
+      "roic": 0.11935000000000001,
+      "revenueGrowthForecast3Y": 0.1531,
+      "sourceUrl": "https://stockanalysis.com/stocks/amzn/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。",
+      "来源模型预测 7 年；本工具预测五年后即进入稳定期，适用性需要另行判断。"
+    ]
+  }
 }

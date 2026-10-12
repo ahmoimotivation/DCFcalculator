@@ -3,7 +3,7 @@
   "name": "Alphabet Inc.",
   "currency": "USD",
   "mode": "snapshot",
-  "retrievedAt": "2026-10-12T01:34:09.464Z",
+  "retrievedAt": "2026-10-11T03:10:40.395Z",
   "period": {
     "start": "2025-01-01",
     "end": "2025-12-31",
@@ -13,33 +13,31 @@
   "sharesEnd": "2026-06-30",
   "sic": "7370",
   "sicDescription": "Services-Computer Programming, Data Processing, Etc.",
-  "fcff": 73878476042.96527,
-  "fcffMethod": "cfo-after-tax-interest",
+  "fcff": null,
   "cash": 242474000000,
   "debt": 100164000000,
   "shares": 12230000000,
-  "discount": 0.0934,
-  "terminal": 0.025,
+  "discount": 0.10656,
+  "terminal": null,
   "adjustment": 0,
   "industry": "Software (System & Application)",
-  "waccAsOf": "2026-01",
-  "waccSource": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wacc.html",
+  "waccAsOf": "2026-10-11",
+  "waccSource": "https://stockanalysis.com/stocks/googl/statistics/",
   "reportUrl": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000071/goog-20260630.htm",
-  "missing": [],
+  "missing": [
+    "年度 FCFF：缺少可匹配的税率、折旧、资本开支或营运资金资料"
+  ],
   "warnings": [
-    "折现率自动采用行业资本成本参考，并非这家公司的专属 WACC。",
-    "FCFF 按同一完整年度的 OCF＋税后利息费用−资本开支估算；不能把供应商直接列出的 FCF 当作 FCFF。",
+    "FCFF 按年度 EBIT、有效税率、折旧、资本开支和广义非现金营运资金变动估算；与公司公布的 OCF−CapEx 不同。",
     "营运资金为流动资产−现金及短期金融投资−流动负债＋短期有息债务的代理口径，可能包含非经营项目与并购影响。",
     "按账面金额近似债务及现金投资价值；经营租赁保留为经营费用，未再次当债务扣除。",
-    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。",
-    "因 EBIT 口径所需字段不完整，本次 FCFF 改用同一完整年度的经营现金流＋税后利息费用−资本开支；不等同供应商直接列出的 FCF，股票薪酬与其他非现金调整需要另行核对。"
+    "使用实际在外股数；未单独估值期权、认股权证、少数股东权益和长期非经营资产，可在进阶假设中调整。"
   ],
   "components": {
     "ebit": 129039000000,
     "taxRate": 0.16783146336242177,
     "depreciation": null,
     "capex": 91447000000,
-    "interest": 736000000,
     "deltaWorkingCapital": -3785000000,
     "workingCapital": -21554000000,
     "previousWorkingCapital": -17769000000,
@@ -114,20 +112,6 @@
       "filed": "2026-02-05",
       "frame": "CY2025",
       "tag": "NetCashProvidedByUsedInOperatingActivities",
-      "namespace": "us-gaap",
-      "unit": "USD"
-    },
-    {
-      "start": "2025-01-01",
-      "end": "2025-12-31",
-      "val": 736000000,
-      "accn": "0001652044-26-000018",
-      "fy": 2025,
-      "fp": "FY",
-      "form": "10-K",
-      "filed": "2026-02-05",
-      "frame": "CY2025",
-      "tag": "InterestExpenseNonoperating",
       "namespace": "us-gaap",
       "unit": "USD"
     },
@@ -352,5 +336,32 @@
       "namespace": "us-gaap",
       "unit": "USD"
     }
-  ]
+  ],
+  "valuationAssumptions": {
+    "symbol": "GOOGL",
+    "scope": "company",
+    "checkedAt": "2026-10-12",
+    "discount": {
+      "value": 0.10656,
+      "provider": "Stock Analysis / S&P Global Market Intelligence",
+      "label": "Weighted Average Cost of Capital (WACC)",
+      "sourceUrl": "https://stockanalysis.com/stocks/googl/statistics/",
+      "asOf": "2026-10-11",
+      "mode": "saved",
+      "kind": "company-wacc-estimate",
+      "method": "采用该公司公开 WACC 估算；供应商未公开可完整重现的利率、风险溢价、债务成本和权重参数。"
+    },
+    "terminal": null,
+    "context": {
+      "beta5Y": 1.211,
+      "roic": 0.24925999999999998,
+      "revenueGrowthForecast3Y": 0.2235,
+      "sourceUrl": "https://stockanalysis.com/stocks/googl/statistics/",
+      "asOf": "2026-10-11"
+    },
+    "warnings": [
+      "未取得可核对的公司专属终值增长模型；保持空白，不能用行业平均或统一 2.5% 补填。",
+      "WACC 与终值增长率来自不同估值资料；只引用参数，不复现任何来源网站的完整估值。"
+    ]
+  }
 }
