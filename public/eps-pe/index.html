@@ -1,0 +1,285 @@
+<!doctype html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FU MONEY · 5 年估值计算器</title><meta name="description" content="输入 EPS、增长率、PE 和目标年回报，计算五年后的情景股价及今天的条件买入价。"><style>
+@font-face {
+  font-family: "OpenAI Sans";
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/v4/OpenAISans-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "OpenAI Sans";
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/v4/OpenAISans-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+  --orbit-page: #f8f8f8;
+  --orbit-card: #fff;
+  --orbit-text: #141414;
+  --orbit-muted: #626262;
+  --orbit-line: #dedede;
+  --orbit-tint: #ededed;
+  --orbit-action-hover: #333;
+  --orbit-action-ink: #fff;
+  --orbit-card-edge: rgb(20 20 20 / 5%);
+  --orbit-card-shadow: 0 2px 12px rgb(20 20 20 / 5%);
+  --orbit-radius-small: .5rem;
+  --orbit-radius-medium: 1rem;
+  --orbit-radius-large: 1.5rem;
+  --orbit-grid-columns: 12;
+  --orbit-grid-gap: 1.5rem;
+  --orbit-main-span: 8;
+  --orbit-half-span: 6;
+  --orbit-chooser-span: 3;
+  --orbit-section-gap: 3rem;
+  --orbit-section-inset: 2rem;
+  --orbit-heading-gap: 1.5rem;
+  --orbit-copy-gap: 1rem;
+  --orbit-small-gap: .75rem;
+  font-family: "OpenAI Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 100%;
+  line-height: 1.65;
+  letter-spacing: -.01em;
+  color: var(--orbit-text);
+  background: var(--orbit-page);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --orbit-page: #171717;
+    --orbit-card: #3e3e3e;
+    --orbit-text: #f3f3f3;
+    --orbit-muted: #bdbdbd;
+    --orbit-line: #505050;
+    --orbit-tint: #333;
+    --orbit-action-hover: #ddd;
+    --orbit-action-ink: #171717;
+    --orbit-card-edge: rgb(243 243 243 / 8%);
+    --orbit-card-shadow: 0 2px 12px rgb(0 0 0 / 14%);
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+h1, h2, h3, p, figure, dl { margin: 0; }
+img { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; }
+button, summary { cursor: pointer; }
+a { color: inherit; text-underline-offset: .2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--orbit-text);
+  outline-offset: 3px;
+}
+
+.orbit-page {
+  width: min(100%, 70rem);
+  margin-inline: auto;
+  padding: 3rem 2.5rem 6.875rem;
+  overflow-wrap: anywhere;
+}
+
+.skip-link { position: absolute; top: .75rem; left: 1rem; transform: translateY(-200%); }
+.skip-link:focus { z-index: 2; transform: none; background: var(--orbit-page); padding: .5rem 1rem; }
+.context { padding-bottom: 1.25rem; margin-bottom: var(--orbit-section-inset); border-bottom: 1px solid var(--orbit-line); font-size: .875rem; }
+.context > p:first-child { font-weight: 500; }
+.metadata { color: var(--orbit-muted); font-size: .875rem; letter-spacing: 0; }
+.context .metadata { margin-top: .125rem; }
+.page-heading { max-width: 44rem; margin-bottom: var(--orbit-section-inset); }
+h1 { font-size: clamp(2.5rem, 4.5vw, 3.5rem); line-height: 1.08; letter-spacing: -.03em; font-weight: 500; text-wrap: balance; }
+h2 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -.02em; font-weight: 500; }
+h3 { font-size: 1.125rem; line-height: 1.4; letter-spacing: -.02em; font-weight: 500; }
+.lead { font-size: 1.125rem; line-height: 1.65; margin-top: var(--orbit-heading-gap); }
+.section { margin-top: var(--orbit-section-gap); padding-top: var(--orbit-section-inset); border-top: 1px solid var(--orbit-line); }
+.section > h2 { margin-bottom: var(--orbit-heading-gap); }
+.section > p + p { margin-top: var(--orbit-copy-gap); }
+.section > p { max-width: 44rem; }
+/* Compose by content relationship. Open groups reserve one empty track. */
+.content-grid, .layout-equal, .layout-main-support, .layout-open-support, .layout-split, .layout-chooser {
+  display: grid;
+  grid-template-columns: repeat(var(--orbit-grid-columns), minmax(0, 1fr));
+  gap: var(--orbit-grid-gap);
+  align-items: start;
+}
+:is(.content-grid, .layout-equal, .layout-main-support, .layout-open-support, .layout-split, .layout-chooser) > * { min-width: 0; }
+.layout-primary > h2 { margin-bottom: var(--orbit-heading-gap); }
+:is(.layout-primary, .layout-secondary) > h3 + p { margin-top: var(--orbit-small-gap); }
+.content-grid > *, .layout-equal > * { grid-column: span var(--orbit-half-span); }
+.layout-main-support > .layout-primary { grid-column: 1 / span var(--orbit-main-span); grid-row: 1; }
+.layout-main-support > .layout-secondary { grid-column: calc(var(--orbit-main-span) + 1) / -1; grid-row: 1; }
+.layout-open-support > .layout-primary { grid-column: 1 / span calc(var(--orbit-main-span) - 1); grid-row: 1; }
+.layout-open-support > .layout-secondary { grid-column: calc(var(--orbit-main-span) + 1) / -1; grid-row: 1; }
+.layout-split > .layout-primary { grid-column: 1 / span var(--orbit-half-span); grid-row: 1; }
+.layout-split > .layout-secondary { grid-column: calc(var(--orbit-half-span) + 2) / -1; grid-row: 1; }
+.layout-chooser > .layout-primary { grid-column: 1 / span var(--orbit-chooser-span); grid-row: 1; }
+.layout-chooser > .layout-secondary { grid-column: calc(var(--orbit-chooser-span) + 1) / -1; grid-row: 1; }
+:is(.layout-open-support, .layout-split) { position: relative; }
+/* Optional rules occupy the reserved track; hiding them never changes spacing. */
+.layout-open-support.layout-divided::before, .layout-split.layout-divided::before {
+  content: "";
+  grid-row: 1;
+  justify-self: center;
+  align-self: stretch;
+  width: 1px;
+  background: var(--orbit-line);
+  pointer-events: none;
+}
+.layout-open-support.layout-divided::before { grid-column: var(--orbit-main-span); }
+.layout-split.layout-divided::before { grid-column: calc(var(--orbit-half-span) + 1); }
+.reading { width: calc((100% - 11 * var(--orbit-grid-gap)) / 12 * 8 + 7 * var(--orbit-grid-gap)); margin-inline: auto; }
+.surface, .recommendation {
+  background: var(--orbit-card);
+  border: 1px solid var(--orbit-card-edge);
+  border-radius: var(--orbit-radius-medium);
+  box-shadow: var(--orbit-card-shadow);
+  padding: clamp(1rem, 2vw, 1.5rem);
+}
+.surface > * + *, .recommendation > * + * { margin-top: var(--orbit-small-gap); }
+.surface > .facts { margin-top: var(--orbit-heading-gap); }
+
+.facts > div { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding: 1rem 0; border-bottom: 1px solid var(--orbit-line); }
+.facts > div:first-child { padding-top: 0; }
+.facts > div:last-child { border-bottom: 0; }
+.facts dt { flex: 1 1 5.5rem; min-width: 0; color: var(--orbit-muted); }
+.facts dd { flex: 2.5 1 12rem; min-width: 0; margin: 0; }
+
+.item-list { margin: 0; padding-left: 1.5rem; }
+.item-list > li { padding: 1.25rem 0 1.25rem .5rem; border-bottom: 1px solid var(--orbit-line); }
+.item-list > li:first-child { padding-top: 0; }
+.item-list > li:last-child { padding-bottom: 0; border-bottom: 0; }
+.item-list p, .timeline p { margin-top: var(--orbit-small-gap); max-width: 44rem; }
+.item-list .metadata { margin-top: .375rem; }
+
+.feature-image { margin-block: var(--orbit-section-inset); }
+.feature-image img { width: 100%; aspect-ratio: 2.8; object-fit: cover; border-radius: var(--orbit-radius-medium); }
+.feature-image figcaption { color: var(--orbit-muted); font-size: .875rem; line-height: 1.5; margin-top: .625rem; }
+.product-image, .feature-image .product-image { width: 100%; max-height: 18rem; object-fit: contain; }
+
+.table-scroll { overflow-x: auto; border: 1px solid var(--orbit-line); border-radius: var(--orbit-radius-medium); }
+.comparison { width: 100%; border-collapse: collapse; text-align: left; font-size: .875rem; }
+.comparison caption { text-align: left; font-size: 1rem; font-weight: 500; padding: 1rem 1.25rem; }
+.comparison th, .comparison td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--orbit-line); vertical-align: top; min-width: 9rem; }
+.comparison th { font-weight: 500; }
+.comparison thead, .comparison .recommended { background: var(--orbit-tint); }
+.comparison tbody tr:last-child > * { border-bottom: 0; }
+
+.timeline { margin: 0; padding: 0; list-style: none; }
+.timeline > li { display: grid; grid-template-columns: minmax(3.5rem, 1fr) minmax(0, 7fr); gap: 1.25rem; }
+.timeline > li > :first-child { font-size: .875rem; color: var(--orbit-muted); font-variant-numeric: tabular-nums; }
+.timeline > li > div { padding: 0 0 var(--orbit-section-inset) 1.25rem; border-left: 1px solid var(--orbit-line); }
+.timeline > li:last-child > div { padding-bottom: 0; }
+
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li + li { border-top: 1px solid var(--orbit-line); }
+.checklist label { display: flex; align-items: flex-start; gap: .75rem; padding: .875rem 0; cursor: pointer; }
+.checklist input { width: 1.125rem; height: 1.125rem; flex: none; margin: .25rem 0 0; accent-color: var(--orbit-text); }
+.checklist input:checked + span { color: var(--orbit-muted); text-decoration: line-through; }
+
+.sources { max-width: 44rem; }
+.sources summary { width: fit-content; padding-block: .375rem; font-weight: 500; }
+.sources > :not(summary) { margin-top: var(--orbit-copy-gap); }
+.sources ul { padding-left: 1.25rem; }
+.sources li + li { margin-top: .5rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: var(--orbit-heading-gap); }
+.button { display: inline-flex; justify-content: center; align-items: center; min-height: 2.75rem; padding: .625rem 1.125rem; border: 1px solid var(--orbit-text); border-radius: var(--orbit-radius-small); background: var(--orbit-text); color: var(--orbit-action-ink); font-weight: 500; line-height: 1.4; text-align: center; text-decoration: none; }
+.button:hover { background: var(--orbit-action-hover); text-decoration: none; }
+.button-secondary { background: var(--orbit-card); color: var(--orbit-text); border-color: var(--orbit-line); }
+.button-secondary:hover { background: var(--orbit-tint); }
+.button-soft { background: var(--orbit-tint); color: var(--orbit-text); border-color: transparent; }
+.button-soft:hover { background: var(--orbit-line); }
+.button:disabled { cursor: default; opacity: .5; }
+
+.field { display: grid; gap: .5rem; max-width: 36rem; }
+.field + .field { margin-top: 1.25rem; }
+.field > label, .choice-group legend { font-weight: 500; }
+.control { display: block; width: 100%; min-width: 0; min-height: 2.75rem; padding: .625rem .875rem; border: 1px solid #8c8c8c; border-radius: var(--orbit-radius-small); background: var(--orbit-card); color: var(--orbit-text); }
+.control::placeholder { color: var(--orbit-muted); opacity: 1; }
+textarea.control { resize: vertical; min-height: 7rem; }
+.choice-group { min-width: 0; margin: 0; padding: 0; border: 0; }
+.choice-group + .choice-group { margin-top: 1.5rem; }
+.choice-group legend { padding: 0; margin-bottom: .5rem; }
+.choice { display: flex; align-items: center; gap: .75rem; min-height: 2.75rem; padding: .5rem 0; cursor: pointer; }
+.choice input { flex: none; width: 1.125rem; height: 1.125rem; margin: 0; accent-color: var(--orbit-text); }
+.switch input { appearance: none; position: relative; width: 2.5rem; height: 1.5rem; border: 1px solid var(--orbit-muted); border-radius: 2rem; background: var(--orbit-muted); cursor: pointer; }
+.switch input::before { content: ""; position: absolute; width: 1rem; height: 1rem; left: .1875rem; top: .1875rem; border-radius: 50%; background: var(--orbit-action-ink); }
+.switch input:checked { background: var(--orbit-text); border-color: var(--orbit-text); }
+.switch input:checked::before { transform: translateX(1rem); }
+.badge { display: inline-block; padding: .125rem .625rem; border-radius: .375rem; background: var(--orbit-tint); font-size: .875rem; font-weight: 500; }
+.notice { margin-top: 1rem; padding: 1rem 1.25rem; border: 1px solid var(--orbit-line); border-radius: var(--orbit-radius-medium); }
+.notice > p { margin-top: .5rem; }
+
+/* Optional photograph header. Supply a relevant image, never a decorative placeholder. */
+.image-page { overflow-wrap: anywhere; }
+.image-context { min-height: 4rem; width: min(100%, 70rem); margin-inline: auto; padding: 1.25rem 2.5rem; font-size: .875rem; font-weight: 500; }
+.image-hero { position: relative; isolation: isolate; display: grid; align-items: end; min-height: 26.25rem; margin-inline: 1.5rem; border-radius: var(--orbit-radius-large); overflow: hidden; color: #fff; background: #333; }
+.image-hero > img { position: absolute; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.image-hero::before { content: ""; position: absolute; z-index: -1; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 15%), rgb(0 0 0 / 75%)); }
+.image-hero-copy { padding: 2rem 3rem 3.75rem; text-align: center; }
+.image-hero h1 { max-width: 48.75rem; margin-inline: auto; font-size: clamp(2.5rem, 4.5vw, 4rem); line-height: 1.05; }
+.image-hero p { max-width: 42.5rem; margin: 1rem auto 0; font-size: 1.125rem; }
+
+@media (forced-colors: active) {
+  .switch input { appearance: auto; }
+  .switch input::before { display: none; }
+}
+
+@media (max-width: 900px) {
+  :root { --orbit-grid-columns: 8; --orbit-grid-gap: 1.25rem; --orbit-main-span: 5; --orbit-half-span: 4; }
+  .orbit-page { padding: 2rem 1.75rem 6.25rem; }
+  .image-context { padding-inline: 1.75rem; }
+  .reading { width: auto; }
+}
+
+@media (max-width: 760px) {
+  :is(.content-grid, .layout-equal, .layout-main-support, .layout-open-support, .layout-split, .layout-chooser) { row-gap: 2rem; }
+  :is(.content-grid, .layout-equal) > *,
+  :is(.layout-main-support, .layout-open-support, .layout-split, .layout-chooser) > :is(.layout-primary, .layout-secondary) { grid-column: 1 / -1; grid-row: auto; }
+  .layout-open-support.layout-divided::before, .layout-split.layout-divided::before { display: none; }
+  :is(.layout-open-support, .layout-split).layout-divided > .layout-secondary { border-top: 1px solid var(--orbit-line); padding-top: 1.5rem; }
+}
+
+@media (max-width: 680px) {
+  :root { --orbit-grid-columns: 4; --orbit-grid-gap: 1rem; --orbit-section-gap: 2rem; --orbit-section-inset: 1.5rem; --orbit-heading-gap: 1.25rem; }
+  .orbit-page { padding: 1.5rem 1.25rem 6.25rem; }
+  .context { padding-bottom: .75rem; }
+  h2 { font-size: 1.375rem; }
+  .lead { font-size: 1.0625rem; }
+  .feature-image img { aspect-ratio: 1.65; }
+  .timeline > li { grid-template-columns: minmax(2.75rem, 1fr) minmax(0, 5fr); gap: .75rem; }
+  .timeline > li > div { padding-left: 1rem; }
+  .image-context { padding-inline: 1.25rem; }
+  .image-hero { min-height: 20rem; margin-inline: .75rem; border-radius: var(--orbit-radius-medium); }
+  .image-hero-copy { padding-inline: 2rem; }
+  .image-hero h1 { font-size: 2.5rem; }
+}
+
+
+</style><style>
+:root{color-scheme:dark;--orbit-page:#111;--orbit-card:#1d1d1d;--orbit-text:#fff;--orbit-muted:#aaa;--orbit-line:#383838;--orbit-tint:#252525;--orbit-action-ink:#111;--orbit-action-hover:#ddd}body{background:#111}.orbit-page{max-width:1120px}.context{display:flex;justify-content:space-between;align-items:center;gap:16px}.context p{margin:0}.brand{font-size:24px;font-weight:700;letter-spacing:-1px;color:white}.brand span,.eyebrow{color:#ff9855}.context>p:last-child{font-size:11px;letter-spacing:1px}.page-heading{padding:32px 0}h1{font-size:clamp(34px,5vw,54px);line-height:1.15;letter-spacing:-2px;margin:12px 0 20px}.eyebrow{font-size:12px;letter-spacing:1px;font-weight:600}.lead{color:#aaa;font-size:18px}.layout-equal{align-items:start;gap:40px}h2{font-size:20px;margin:0 0 24px}.field{margin-bottom:24px}label{display:block;margin-bottom:8px;font-weight:500}label span{font-size:12px;color:#aaa;margin-left:8px}.input-wrap{display:flex;align-items:center;border:1px solid #484848;border-radius:8px;background:#191919;padding:0 16px}.input-wrap:focus-within{outline:2px solid #ff9855;outline-offset:2px}.input-wrap input{width:100%;min-width:0;border:0!important;background:transparent!important;outline:none!important;box-shadow:none!important;font-size:24px;padding:10px 0!important;color:white}.input-wrap>span{white-space:nowrap;color:#aaa;font-size:12px}small{display:block;color:#aaa;font-size:12px;margin-top:6px}.result{padding:32px;border-radius:16px;position:sticky;top:24px}.result h2{font-size:18px;line-height:1.5;margin:12px 0}.hero-number{font-size:clamp(42px,6vw,64px);font-weight:600;letter-spacing:-2px;color:#ff9855;overflow-wrap:anywhere}.unit{font-size:12px;color:#aaa;margin:0}.summary{font-size:14px;color:#ddd;padding:20px 0;min-height:65px}.metrics{margin:0}.metrics>div{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-top:1px solid #383838}.metrics dt{font-size:14px;color:#aaa}.metrics dd{font-size:18px;font-weight:500;margin:0;overflow-wrap:anywhere}.note{margin-top:24px;padding-top:20px;border-top:1px solid #383838;font-size:12px;color:#aaa}.note strong{color:#ddd}.note p{margin-bottom:0}#error{color:#ffb28c;font-size:13px;min-height:0}#error:empty{display:none}.button-secondary{padding:10px 16px;border:1px solid #666;border-radius:8px;color:white;background:transparent;cursor:pointer}.example-note{font-size:12px;color:#888;margin-top:14px}.sources{margin-top:48px;border-top:1px solid #383838;padding-top:24px;color:#aaa;font-size:14px}summary{cursor:pointer;color:white}footer{margin-top:40px;padding:24px 0;border-top:1px solid #383838;display:flex;justify-content:space-between;font-size:12px;color:#888}.formulas{padding-left:22px}.formulas li{padding:8px 0}@media(max-width:760px){.layout-equal{gap:28px}.result{position:static;padding:24px}.page-heading{padding:24px 0}footer{gap:16px}.context>p:last-child{font-size:9px}h1{letter-spacing:-1px}} 
+.result{position:static}.result h2{font-size:20px;margin:0 0 28px}.price-block h3{font-size:16px;line-height:1.5;margin:8px 0 4px}.price-block .eyebrow{margin:0}.future-number{color:#fff}.price-formula{font-size:12px;color:#aaa;margin:10px 0 0}.discount-bridge{border-top:1px solid #383838;border-bottom:1px solid #383838;margin:22px 0;padding:14px 0;font-size:12px;color:#ff9855}.summary{padding:12px 0}.result .hero-number{font-size:clamp(42px,5vw,56px)}
+.future-explanation{font-size:14px;line-height:1.7;color:#ddd;margin:16px 0 0}
+.buy-rule{margin:22px 0;padding:16px;border:1px solid #484848;border-radius:8px;font-size:14px;color:#ddd}.buy-rule:empty{display:none}.buy-rule strong{color:#ff9855}.buy-rule ul{padding-left:20px;margin:10px 0}.buy-rule li{margin:6px 0}.buy-rule small{line-height:1.65;color:#aaa}
+
+</style></head><body><a class="skip-link" href="#main-content">跳到计算器</a><main class="orbit-page" id="main-content"><header class="context"><p class="brand">FU <span>MONEY</span></p><p>INVESTING TOOL / 01</p></header><header class="page-heading"><p class="eyebrow">EPS × PE · 固定 5 年</p><h1>未来的盈利，<br>今天值多少钱？</h1><p class="lead">输入 4 个假设，把目标回报倒推成买入价。</p></header><div class="layout-equal"><section class="layout-primary" aria-labelledby="inputs-title"><h2 id="inputs-title">你的估值假设</h2><form id="form" novalidate><div class="field"><label for="eps">当前每股盈利 <span>Current EPS</span></label><div class="input-wrap"><input id="eps" type="number" value="9.31" min="0" step="any" inputmode="decimal" aria-describedby="eps-help"><span>每股</span></div><small id="eps-help">使用同一口径的全年或 TTM EPS；结果沿用其货币单位。</small></div><div class="field"><label for="growth">未来 5 年 EPS 年复合增长率</label><div class="input-wrap"><input id="growth" type="number" value="20" min="-99.99" step="any" inputmode="decimal"><span>% / 年</span></div><small>每年增长率，不是 5 年累计增长。</small></div><div class="field"><label for="pe">5 年平均 PE <span>Average P/E</span></label><div class="input-wrap"><input id="pe" type="number" value="25" min="0" step="any" inputmode="decimal"><span>倍</span></div><small>用你选定的平均 PE，作为第 5 年卖出时的估值倍数。</small></div><div class="field"><label for="returns">目标年复合回报率</label><div class="input-wrap"><input id="returns" type="number" value="18" min="0" step="any" inputmode="decimal"><span>% / 年</span></div><small>你希望每年获得的投资回报，不是公司的盈利增长率。</small></div><p id="error" role="alert"></p><button type="reset" class="button-secondary">重置教学示例</button></form><p class="example-note">预填数字仅为教学示例，不是实时行情或推荐。</p></section><section class="layout-secondary surface result" aria-labelledby="result-title" aria-live="polite"><h2 id="result-title">两个时间点，两种价格</h2><div class="price-block"><p class="eyebrow">01 / 第 5 年 · 尚未折现</p><h3>5 年后的情景股价</h3><output id="future-price" class="hero-number future-number">—</output><p class="unit">每股 · 未来价格，不是今天的合理价</p><p class="price-formula">5 年后的 EPS × 假设 PE</p><p id="future-explanation" class="future-explanation"></p></div><div class="discount-bridge">↓ 按目标年回报率折现 5 年</div><div class="price-block"><p class="eyebrow">02 / 今天 · 已折现</p><h3>符合目标回报的最高买入价</h3><output id="present" class="hero-number">—</output><p class="unit">每股 · 与输入 EPS 同币种</p><p class="price-formula">未来股价 ÷ (1 + 目标年回报率)⁵</p></div><div id="buy-rule" class="buy-rule"></div><p id="summary" class="summary"></p><dl class="metrics"><div><dt>5 年后的预测 EPS</dt><dd id="future-eps">—</dd></div><div><dt>持有期</dt><dd>5 年</dd></div></dl><div class="note"><strong>这是条件价格，不是保证。</strong><p>只有增长率和卖出 PE 等假设成立，才对应目标回报。平均 PE 不保证未来会恢复。</p></div></section></div><details class="sources"><summary>查看计算公式与假设</summary><ol class="formulas"><li>未来 EPS = 当前 EPS × (1 + 年增长率)⁵</li><li>未来股价 = 未来 EPS × 假设 PE</li><li>今天的条件买入价 = 未来股价 ÷ (1 + 目标年回报率)⁵</li></ol><p>不计股息、税费、交易成本及汇率变化。仅适用于正 EPS、正 PE 的简化情景；不是确定的内在价值，也不是投资建议。</p></details><footer>FU MONEY <span>看懂假设，再看价格。</span></footer></main><script>
+function calculateValuation(eps,growth,pe,returns){
+ if(![eps,growth,pe,returns].every(Number.isFinite))throw new Error('请填写全部 4 个有效数字。');
+ if(eps<=0)throw new Error('EPS 必须大于 0；亏损公司不适用这个模型。');
+ if(growth<=-100)throw new Error('年增长率必须大于 -100%。');
+ if(pe<=0)throw new Error('PE 必须大于 0。');
+ if(returns<0)throw new Error('目标年回报率不能小于 0%。');
+ const futureEPS=eps*Math.pow(1+growth/100,5), futurePrice=futureEPS*pe,present=futurePrice/Math.pow(1+returns/100,5);
+ if(![futureEPS,futurePrice,present].every(Number.isFinite))throw new Error('数值过大，请输入较合理的假设。');
+ return {futureEPS,futurePrice,present};
+}
+if(typeof module!=='undefined')module.exports=calculateValuation;
+
+</script><script>
+const ids=['eps','growth','pe','returns'];const format=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function update(){try{const values=ids.map(id=>{const s=document.getElementById(id).value;return s.trim()===''?NaN:Number(s)});const r=calculateValuation(...values);document.getElementById('error').textContent='';document.getElementById('present').textContent=format(r.present);document.getElementById('future-eps').textContent=format(r.futureEPS);document.getElementById('future-price').textContent=format(r.futurePrice);document.getElementById('future-explanation').textContent=`如果 EPS 每年增长 ${values[1]}%，连续增长 5 年，而第 5 年市场愿意给 ${values[2]} 倍 PE，那么估算每股价格为 ${format(r.futurePrice)}。这是 5 年后的情景价格，不是今天的价格，也不是保证。`;document.getElementById('buy-rule').innerHTML=`<strong>买入价判断</strong><ul><li>高于 ${format(r.present)}：不符合 ${values[3]}% 目标年回报。</li><li>等于 ${format(r.present)}：恰好符合 ${values[3]}% 目标年回报。</li><li>低于 ${format(r.present)}：符合目标，模型回报高于 ${values[3]}%。</li></ul><small>以上以第 5 年预测股价实现、未计股息及费用为前提；并非无条件买卖建议。显示价格四舍五入至两位小数，临界判断以未四舍五入数值为准。</small>`;document.getElementById('summary').textContent=`若每年 EPS 增长 ${values[1]}%，第 5 年按 ${values[2]} 倍 PE 卖出，以此价格买入对应 ${values[3]}% 的年复合回报。`;}catch(e){document.getElementById('error').textContent=e.message;['present','future-eps','future-price'].forEach(id=>document.getElementById(id).textContent='—');document.getElementById('buy-rule').textContent='';document.getElementById('summary').textContent='请先修正左侧输入。';document.getElementById('future-explanation').textContent='填写有效假设后，这里会说明未来股价的含义。';}}
+document.getElementById('form').addEventListener('input',update);document.getElementById('form').addEventListener('submit',e=>e.preventDefault());document.getElementById('form').addEventListener('reset',()=>setTimeout(update,0));update();
+
+</script></body></html>
